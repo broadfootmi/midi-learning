@@ -64,14 +64,20 @@ public class Creature implements GenomeSequencer {
 	public char getNote( boolean[] gene ) {
 
 		String geneString = new String();
+
 	       	for( int i = 0; i < gene.length; i++ ) {
-			geneString += gene[i];
+
+			if( gene[i] ) {
+				geneString += "1";
+			}
+
+			else {
+				geneString += "0";
+			}
 		}
 
 		int base = 2;
 		int geneInt = Integer.parseInt( geneString, base );
-
-		System.out.println( Notes[ geneInt ] );	
 
 		return Notes[ geneInt ];
 	}
