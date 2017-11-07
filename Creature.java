@@ -1,34 +1,50 @@
 public class Creature implements GenomeSequencer, Comparable<Creature> {
 
-	private Simulation simulation;
+	private Simulation mSimulation;
 
-	private boolean[] genome;
-	private int bitsPerGene;
-	private int fitness;
-	private boolean isFitnessDetermined;
+	private boolean[] mGenome;
+	private int mBitsPerGene = 3;
+	private int mGenomeLength = 108;
+	private int mFitness;
+	private boolean mIsFitnessDetermined = false;
 
 	public Creature (Simulation sim) {
 
-		simulation = sim; 
-		genome = new boolean[108];
-		bitsPerGene = 3;
+		mSimulation = sim; 
 
+		mGenome = new boolean[mGenomeLength];
 		scrambleGenome();
 
 	}
 
+	public Creature (Simulation sim, boolean[] genome) {
+
+		mSimulation = sim;
+
+		mGenome = new boolean[mGenomeLength];
+		setGenome( genome );
+	}
+
+	public Creature (Simulation sim, char[] genome) {
+
+		mSimulation = sim;
+
+		mGenome = new boolean[mGenomeLength];
+		setGenome( genome );
+	}
+
 	public void setFitness (int fit) {
 
-		if (!isFitnessDetermined) {
+		if (!mIsFitnessDetermined) {
 
-			this.fitness = fit;
-			isFitnessDetermined = true;
+			this.mFitness = fit;
+			mIsFitnessDetermined = true;
 
 		}
 
 	}
 
-	public int getFitness () { return fitness; }
+	public int getFitness () { return mFitness; }
 
 	public int compareTo( Creature otherCreature ) {
 
@@ -38,21 +54,27 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	public int getGenomeLength() {
 
-		return genome.length;
+		return mGenome.length;
 
 	}
 
 	public boolean[] getGenome() {
 
-		return genome;
+		return mGenome;
+
+	}
+
+	public int getBitsPerGene() {
+
+		return mBitsPerGene;
 
 	}
 
 	public void printGenome () {
 
-		for (int i = 0; i < genome.length; i++) {
+		for (int i = 0; i < mGenome.length; i++) {
 
-			if ( genome[i] == true ) {
+			if ( mGenome[i] == true ) {
 				System.out.print(1);
 			}
 
@@ -68,8 +90,8 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	public void setGenome ( boolean[] newGenome ) {
 
-		if (newGenome.length == genome.length) {
-			System.arraycopy( newGenome, 0, genome, 0, genome.length);
+		if (newGenome.length == mGenome.length) {
+			System.arraycopy( newGenome, 0, mGenome, 0, mGenome.length);
 		}
 
 		else {
@@ -80,18 +102,18 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	public void setGenome ( char[] newTraits ) {
 
-		boolean[] newGenome = new boolean[this.genome.length];
+		boolean[] newGenome = new boolean[this.mGenome.length];
 
 		int binaryIndex = 0;
 
 		for (char note : newTraits ) {
 
-			boolean[] gene = new boolean[this.bitsPerGene];
+			boolean[] gene = new boolean[this.mBitsPerGene];
 			gene = getGene( note );
 
 			System.arraycopy( gene, 0, newGenome, binaryIndex, gene.length);
 
-			binaryIndex += this.bitsPerGene;
+			binaryIndex += this.mBitsPerGene;
 
 		}
 
@@ -102,9 +124,9 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 	public void printNotes () {
 
 		String notes = new String();
-		for(int i = 0; i < genome.length; i += bitsPerGene ) {
+		for(int i = 0; i < mGenome.length; i += mBitsPerGene ) {
 
-			boolean[] note = { genome[i], genome[i+1], genome[i+2] };
+			boolean[] note = { mGenome[i], mGenome[i+1], mGenome[i+2] };
 			notes += getNote( note );
 
 		}
@@ -135,11 +157,9 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 
 	public boolean[] getGene( char note ) {
-
 		/*Char -> Binary String -> Gene*/
-
 		int geneInt = 0;
-		boolean[] gene = new boolean[this.bitsPerGene];
+		boolean[] gene = new boolean[this.mBitsPerGene];
 
 		for (int i = 0; i < Notes.length; i++) {
 
@@ -152,9 +172,9 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 		String binary = Integer.toBinaryString( geneInt );
 
-		if (binary.length() < this.bitsPerGene) { //Pad bits
+		if (binary.length() < this.mBitsPerGene) { //Pad bits
 
-			int padBits = Math.abs( binary.length() - this.bitsPerGene );
+			int padBits = Math.abs( binary.length() - this.mBitsPerGene );
 
 
 			String pad = new String();
@@ -167,10 +187,10 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 			binary = pad + binary;
 		}
 
-		binary.substring( binary.length() - this.bitsPerGene ); //Cut bits
+		binary.substring( binary.length() - this.mBitsPerGene ); //Cut bits
 
 		
-		for (int i = 0; i < this.bitsPerGene; i++) {
+		for (int i = 0; i < this.mBitsPerGene; i++) {
 
 			if (binary.charAt(i) == '1') {
 				gene[i] = true; 
@@ -186,14 +206,64 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	}
 
-
-
 	private void scrambleGenome () {
 		
-		for (int i = 0; i < genome.length; i++) {
-			boolean b = simulation.getRandomBoolean();
-			genome[i] = b;
+		for (int i = 0; i < mGenome.length; i++) {
+			boolean b = mSimulation.getRandomBoolean();
+			mGenome[i] = b;
 		}
 
 	}
+
+	public void crossover (Creature partner, Creature childOne, Creature childTwo) {
+
+		int crossoverPoint = Math.abs( this.mSimulation.getRandomInteger() ) % mGenomeLength;
+		boolean[] partnerGenome = partner.getGenome();
+
+		boolean[] childOneGenome = new boolean[this.mGenome.length];
+		boolean[] childTwoGenome = new boolean[this.mGenome.length];
+		
+		for ( int i = 0; i <= crossoverPoint; i++ ) {
+			
+			childOneGenome[i] = this.mGenome[i];	
+			childTwoGenome[i] = partnerGenome[i];
+		}
+
+		if ( crossoverPoint != (this.mGenome.length - 1) ) {
+
+			for ( int i = crossoverPoint + 1; i < this.mGenome.length; i++ ) {
+
+				childOneGenome[i] = partnerGenome[i];
+				childTwoGenome[i] = this.mGenome[i];
+
+			}
+
+		}
+
+		childOne = new Creature( this.mSimulation, childOneGenome );
+		childTwo = new Creature( this.mSimulation, childTwoGenome );
+
+		/*
+		System.out.println("The child of: ");
+		this.printGenome();
+		System.out.println("And: ");
+		partner.printGenome();
+		System.out.println("At crossover index: " + crossoverPoint);
+		System.out.println("Child One: ");
+		childOne.printGenome();	
+		System.out.println("Child Two: ");
+		childTwo.printGenome();
+		*/
+
+	}
 }
+
+
+
+
+
+
+
+
+
+

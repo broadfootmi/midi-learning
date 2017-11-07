@@ -3,21 +3,20 @@ import java.util.Collections;
 
 public class Population {
 
-	private Simulation simulation;
+	private Simulation mSimulation;
+	private ArrayList< Creature > mCreatures;
 
-	private ArrayList< Creature > population;
 
 	public Population (Simulation sim, int size) {
 
-		simulation = sim;
-
-		population = new ArrayList< Creature >();
+		mSimulation = sim;
+		mCreatures = new ArrayList< Creature >();
 
 
 		for (int i = 0; i < size; i++) {
 			
-			Creature c = new Creature(simulation);
-			population.add(c);
+			Creature c = new Creature(mSimulation);
+			mCreatures.add(c);
 
 		}
 
@@ -26,39 +25,85 @@ public class Population {
 
 	public Population (Population parentGeneration) {
 
-		simulation = parentGeneration.simulation;
+		mSimulation = parentGeneration.getSimulation();
+		mCreatures = new ArrayList< Creature >();
+
+		int numPairs = parentGeneration.getSize() / 2;
+		for (int i = 0; i < numPairs; i++) {
+			
+			Creature mateOne = mSimulation.chooseCreature( parentGeneration );
+			Creature mateTwo = mSimulation.chooseCreature( parentGeneration );
+
+			Creature childOne = new Creature( this.mSimulation );
+			Creature childTwo = new Creature( this.mSimulation );
+
+			mateOne.crossover( mateTwo, childOne, childTwo );
+
+			mCreatures.add( childOne );
+			mCreatures.add( childTwo );
+		}
 
 	}
 
-	public int getSize () {
+	
 
-		return population.size();
+	public int getSize () { 
+		
+		return mCreatures.size(); 
+
+	}
+
+	public Simulation getSimulation () {
+		
+		return mSimulation;
+
+	}
+
+	public ArrayList< Creature > getCreatures () {
+
+		return mCreatures;
 
 	}
 
 	public void testCreatures () {
 
-		System.out.println(this.population.size());
+		for (Creature c : this.mCreatures) {
 
-		for (Creature c : this.population) {
-
-			simulation.testCreature( c );
+			mSimulation.testCreature( c );
 
 		}
 
 		/*Sort Population by Fitness*/
-		Collections.sort( this.population );
-		printFitnesses();
+		Collections.sort( this.mCreatures );
+		printStatistics();
 
 	}
 
 	public void printFitnesses () {
 
-		for (Creature c : this.population) {
+		System.out.println( "These are the population's fitness levels: " );
+		for (Creature c : this.mCreatures) {
 
-			System.out.println( c.getFitness() );
+			System.out.print( c.getFitness() + " " );
 
 		}
+
+		System.out.println();
+	}
+
+	public void printStatistics () {
+
+		int totalFitness = 0;
+		int maxFitness = 0;
+		for (Creature c : this.mCreatures) {
+			totalFitness += c.getFitness();
+			if ( c.getFitness() > maxFitness ) {
+				maxFitness = c.getFitness();
+			}
+		}
+		int averageFitness = (int) (totalFitness / this.mCreatures.size());
+		System.out.println( "Average fitness of this generation is: " + averageFitness );
+		System.out.println( "Maximum fitness is: " + maxFitness );
 	}
 
 	

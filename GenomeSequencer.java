@@ -5,4 +5,5 @@ public interface GenomeSequencer {
 	public char getNote( boolean[] gene );
 	public boolean[] getGene( char note );
 
+
 }
