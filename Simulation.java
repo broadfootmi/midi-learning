@@ -4,9 +4,9 @@ import java.util.ArrayList;
 public class Simulation {
 
 	/*Settings*/
-	private double mutationRate = 0.001;
+	private double mutationRate = 0.05;
 	private double populationSize = 200;
-	private int maxNumGenerations = 100000;
+	private int maxNumGenerations = 10000;
 	private Creature desiredCreature;
 
 	/*State*/
@@ -37,6 +37,12 @@ public class Simulation {
 
 	}	
 
+	public double getMutationRate () {
+		
+		return this.mutationRate;
+
+	}
+
 	public void start () {
 
 		/*Desired Creature*/
@@ -56,6 +62,19 @@ public class Simulation {
 			this.nextGeneration();
 
 		}
+
+		System.out.println("Done!");
+
+		if ( numGenerations == maxNumGenerations ) {
+			System.out.println ( "Generation limit reached." );
+		}
+
+		if ( currentGeneration.getContainsPerfectCreature() ) {
+			System.out.println ( "Desired Creature achieved. Here it is! :");
+			currentGeneration.getTopCreature().printNotes();
+			System.out.println ( "Compared to what we wanted : " );
+			desiredCreature.printNotes();
+		}
 	}
 
 	public boolean getRandomBoolean () {
@@ -66,7 +85,7 @@ public class Simulation {
 
 	public int getRandomInteger () {
 
-		return rng.nextInt();
+		return Math.abs( rng.nextInt() );
 
 	}
 
@@ -81,7 +100,7 @@ public class Simulation {
 		currentGeneration.testCreatures();
 		//previousGenerations.add( currentGeneration );
 
-		if ( numGenerations == maxNumGenerations ) {
+		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
 			this.isSimulationComplete = true;
 			return;
 		}
@@ -91,9 +110,11 @@ public class Simulation {
 		this.numGenerations++;
 	}
 
-	public void testCreature( Creature c ) {
+	public boolean testCreature( Creature c ) {
 
-		/*Compare bits with desired creature*/
+		boolean isPerfectMatch = true;
+
+		/*Compare traits with desired creature*/
 		boolean[] genomeUnderTest = c.getGenome();
 		boolean[] desiredGenome = this.desiredCreature.getGenome();
 
@@ -101,12 +122,14 @@ public class Simulation {
 		int index = 0;
 		int bitsPerGene = c.getBitsPerGene();
 
+
 		for (int i = 0; i < genomeUnderTest.length; i += bitsPerGene) {
 
 			boolean geneMatches = true;
 			for (int j = 0; j < bitsPerGene; j++) {
 				if ( genomeUnderTest[i+j] != desiredGenome[i+j] ) {
 					geneMatches = false;
+					isPerfectMatch = false;
 					break;
 				}
 			}
@@ -115,11 +138,10 @@ public class Simulation {
 				fitness++;
 			}
 		}
-				
-
 
 		c.setFitness( fitness );
 
+		return isPerfectMatch;
 		
 
 	}

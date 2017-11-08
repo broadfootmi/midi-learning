@@ -5,6 +5,7 @@ public class Population {
 
 	private Simulation mSimulation;
 	private ArrayList< Creature > mCreatures;
+	private boolean mContainsPerfectCreature = false;
 
 
 	public Population (Simulation sim, int size) {
@@ -45,11 +46,21 @@ public class Population {
 
 	}
 
-	
-
 	public int getSize () { 
 		
 		return mCreatures.size(); 
+
+	}
+
+	public boolean getContainsPerfectCreature () {
+
+		return mContainsPerfectCreature;
+
+	}
+
+	public Creature getTopCreature () {
+
+		return mCreatures.get(0);
 
 	}
 
@@ -69,13 +80,20 @@ public class Population {
 
 		for (Creature c : this.mCreatures) {
 
-			mSimulation.testCreature( c );
+			boolean perfectCreature = mSimulation.testCreature( c );
+
+			if ( perfectCreature ) {
+
+				mContainsPerfectCreature = true;
+
+			}
 
 		}
 
 		/*Sort Population by Fitness*/
 		Collections.sort( this.mCreatures );
-		printStatistics();
+		printFitnesses();
+		//printStatistics();
 
 	}
 
@@ -84,7 +102,22 @@ public class Population {
 		System.out.println( "These are the population's fitness levels: " );
 		for (Creature c : this.mCreatures) {
 
-			System.out.print( c.getFitness() + " " );
+			String info = new String();
+			if ( c.getIsMutated() ) {
+				
+				info += ( "m" + c.getFitness() + " ");
+
+			}
+
+			else {
+
+				info += c.getFitness() + " ";
+
+			}
+
+
+
+			System.out.print( info );
 
 		}
 

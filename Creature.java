@@ -6,6 +6,7 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 	private int mBitsPerGene = 3;
 	private int mGenomeLength = 108;
 	private int mFitness;
+	private boolean mIsMutated = false;
 	private boolean mIsFitnessDetermined = false;
 
 	public Creature (Simulation sim) {
@@ -67,6 +68,12 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 	public int getBitsPerGene() {
 
 		return mBitsPerGene;
+
+	}
+
+	public boolean getIsMutated() {
+
+		return mIsMutated;
 
 	}
 
@@ -217,7 +224,7 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	public void crossover (Creature partner, Creature childOne, Creature childTwo) {
 
-		int crossoverPoint = Math.abs( this.mSimulation.getRandomInteger() ) % mGenomeLength;
+		int crossoverPoint = this.mSimulation.getRandomInteger() % mGenomeLength;
 		boolean[] partnerGenome = partner.getGenome();
 
 		boolean[] childOneGenome = new boolean[this.mGenome.length];
@@ -240,21 +247,37 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 		}
 
-		childOne = new Creature( this.mSimulation, childOneGenome );
-		childTwo = new Creature( this.mSimulation, childTwoGenome );
+		childOne.setGenome( childOneGenome );
+		childTwo.setGenome( childTwoGenome );
 
-		/*
-		System.out.println("The child of: ");
-		this.printGenome();
-		System.out.println("And: ");
-		partner.printGenome();
-		System.out.println("At crossover index: " + crossoverPoint);
-		System.out.println("Child One: ");
-		childOne.printGenome();	
-		System.out.println("Child Two: ");
-		childTwo.printGenome();
-		*/
+		childOne.mutate();
+		childTwo.mutate();
 
+	}
+
+	public void mutate () {
+
+		int range = (int) ( 1 / mSimulation.getMutationRate() );
+		int randomNumber = mSimulation.getRandomInteger() % range;
+
+		if ( randomNumber == 0 ) {
+
+			this.mIsMutated = true;
+
+		}
+
+		if ( this.mIsMutated ) {
+
+			randomNumber = mSimulation.getRandomInteger() % mGenomeLength;
+
+			System.out.println("Creature mutated!");
+			//System.out.println("Changed bit " + randomNumber + " from " + mGenome[randomNumber] + " to " + !mGenome[randomNumber] ); 
+
+			mGenome[randomNumber] = !mGenome[randomNumber];
+
+
+		}
+		
 	}
 }
 
