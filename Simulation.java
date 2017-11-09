@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Simulation {
 
 	/*Settings*/
-	private double mutationRate = 0.05;
+	private double mutationRate = 0.01;
 	private double populationSize = 200;
 	private int maxNumGenerations = 10000;
 	private Creature desiredCreature;
@@ -63,6 +63,7 @@ public class Simulation {
 
 		}
 
+		/*Display Results*/
 		System.out.println("Done!");
 
 		if ( numGenerations == maxNumGenerations ) {
@@ -70,10 +71,13 @@ public class Simulation {
 		}
 
 		if ( currentGeneration.getContainsPerfectCreature() ) {
+
 			System.out.println ( "Desired Creature achieved. Here it is! :");
 			currentGeneration.getTopCreature().printNotes();
 			System.out.println ( "Compared to what we wanted : " );
 			desiredCreature.printNotes();
+			System.out.println ( "It only took " + numGenerations + " generations." );
+
 		}
 	}
 
