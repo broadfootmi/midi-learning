@@ -6,7 +6,7 @@ public class Simulation {
 	/*Settings*/
 	private double mutationRate = 0.01;
 	private double populationSize = 200;
-	private int maxNumGenerations = 10000;
+	private int maxNumGenerations = 1000;
 	private Creature desiredCreature;
 
 	/*State*/

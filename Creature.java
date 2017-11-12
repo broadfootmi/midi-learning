@@ -1,21 +1,20 @@
-public class Creature implements GenomeSequencer, Comparable<Creature> {
+public class Creature implements Comparable<Creature> {
 
 	private Simulation simulation;
 	private Population residence;
 
-	private boolean[] genome;
-	private int bitsPerGene = 3;
+	private Genome genome;
 	private int genomeStartingLength = 108;
 	private int fitness;
 	private boolean isMutated = false;
 	private boolean isFitnessDetermined = false;
 
-	public Creature ( Simulation sim ) {
+	public Creature ( Simulation sim ) { //Deprecate - just need to initialize a solution creature in its own population.
 
 		this.simulation = sim;
 
-		this.genome = new boolean[this.genomeStartingLength];
-		scrambleGenome();
+		this.genome = new genome( this, this.genomeStartingLength );
+		this.genome.scramble();
 
 	}
 
@@ -25,8 +24,8 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation(); 
 
-		this.genome = new boolean[this.genomeStartingLength];
-		scrambleGenome();
+		this.genome = new genome( this, this.genomeStartingLength );
+		this.this.genome.scramble();
 
 	}
 
@@ -35,8 +34,8 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation();
 
-		this.genome = new boolean[this.genomeStartingLength];
-		setGenome( genome );
+		this.genome = new genome( this, this.genomeStartingLength );
+		this.setGenome( genome );
 	}
 
 	public Creature ( Population pop, char[] genome ) {
@@ -44,8 +43,8 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation();
 
-		this.genome = new boolean[this.genomeStartingLength];
-		setGenome( genome );
+		this.genome = new genome( this, this.genomeStartingLength );
+		this.setGenome( genome );
 	}
 
 	public void setFitness (int fit) {
@@ -67,24 +66,6 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	}
 
-	public int getGenomeLength() {
-
-		return this.genome.length;
-
-	}
-
-	public boolean[] getGenome() {
-
-		return this.genome;
-
-	}
-
-	public int getBitsPerGene() {
-
-		return this.bitsPerGene;
-
-	}
-
 	public boolean getIsMutated() {
 
 		return this.isMutated;
@@ -93,169 +74,48 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 
 	public void printGenome () {
 
-		for (int i = 0; i < this.genome.length; i++) {
-
-			if ( this.genome[i] == true ) {
-				System.out.print(1);
-			}
-
-			else {
-				System.out.print(0);
-			}
-
-		}
-		
-		System.out.println();
+		this.genome.printData();
 
 	}
 
-	public void setGenome ( boolean[] newGenome ) {
+	public void setGenome ( boolean[] newData ) {
 
-		if (newGenome.length == this.genome.length) {
-			System.arraycopy( newGenome, 0, this.genome, 0, this.genome.length);
-		}
-
-		else {
-			System.out.println("Wrong genome for this creature!");
-		}
+		this.genome.setData( newData );
 
 	}
 
 	public void setGenome ( char[] newTraits ) {
 
-		boolean[] newGenome = new boolean[this.genome.length];
-
-		int binaryIndex = 0;
-
-		for (char note : newTraits ) {
-
-			boolean[] gene = new boolean[this.bitsPerGene];
-			gene = getGene( note );
-
-			System.arraycopy( gene, 0, newGenome, binaryIndex, gene.length);
-
-			binaryIndex += this.bitsPerGene;
-
-		}
-
-		setGenome( newGenome );
+		this.genome.setData( newTraits );
 
 	}
 
-	public void printNotes () {
+	public Genome getGenome () {
 
-		String notes = new String();
-		for(int i = 0; i < this.genome.length; i += this.bitsPerGene ) {
-
-			boolean[] note = { this.genome[i], this.genome[i+1], this.genome[i+2] };
-			notes += getNote( note );
-
-		}
-		System.out.println( notes );
-
-	}
-
-	public char getNote( boolean[] gene ) {
-		/*Gene -> Binary String -> Char*/
-		String binary = new String();
-
-	       	for( int i = 0; i < gene.length; i++ ) {
-
-			if( gene[i] ) {
-				binary += "1";
-			}
-
-			else {
-				binary += "0";
-			}
-		}
-
-		int base = 2;
-		int geneInt = Integer.parseInt( binary, base );
-
-		return Notes[ geneInt ];
-	}
-
-
-	public boolean[] getGene( char note ) {
-		/*Char -> Binary String -> Gene*/
-		int geneInt = 0;
-		boolean[] gene = new boolean[this.bitsPerGene];
-
-		for (int i = 0; i < Notes.length; i++) {
-
-			if (Notes[i] == note) {
-				geneInt = i;
-				break;
-			}
-
-		}
-
-		String binary = Integer.toBinaryString( geneInt );
-
-		if (binary.length() < this.bitsPerGene) { //Pad bits
-
-			int padBits = Math.abs( binary.length() - this.bitsPerGene );
-
-
-			String pad = new String();
-			for (int i = 0; i < padBits; i++ ) {
-
-				pad = pad.concat("0");
-			
-			}
-
-			binary = pad + binary;
-		}
-
-		binary.substring( binary.length() - this.bitsPerGene ); //Cut bits
-
-		
-		for (int i = 0; i < this.bitsPerGene; i++) {
-
-			if (binary.charAt(i) == '1') {
-				gene[i] = true; 
-			}
-
-			else {
-				gene[i] = false;
-			}
-
-		}
-
-		return gene;
-
-	}
-
-	private void scrambleGenome () {
-		
-		for (int i = 0; i < this.genome.length; i++) {
-			boolean b = this.simulation.getRandomBoolean();
-			this.genome[i] = b;
-		}
+		return this.genome;
 
 	}
 
 	public void crossover (Creature partner, Creature childOne, Creature childTwo) {
 
-		int crossoverPoint = this.simulation.getRandomInteger() % this.genome.length;
-		boolean[] partnerGenome = partner.getGenome();
+		int crossoverPoint = this.simulation.getRandomInteger() % this.genome.getLength();
+		Genome partnerGenome = partner.getGenome();
 
-		boolean[] childOneGenome = new boolean[this.genome.length];
-		boolean[] childTwoGenome = new boolean[this.genome.length];
+		Genome childOneGenome = new Genome( childOne, this.genome.getLength() );
+		Genome childTwoGenome = new Genome( childTwo, this.genome.getLength() ): 
 		
 		for ( int i = 0; i <= crossoverPoint; i++ ) {
 			
-			childOneGenome[i] = this.genome[i];	
-			childTwoGenome[i] = partnerGenome[i];
+			childOneGenome.setDataBit( i, this.genome.getDataBit( i ) );
+			childTwoGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
 		}
 
-		if ( crossoverPoint != (this.genome.length - 1) ) {
+		if ( crossoverPoint != (this.genome.getLength - 1) ) {
 
-			for ( int i = crossoverPoint + 1; i < this.genome.length; i++ ) {
+			for ( int i = crossoverPoint + 1; i < this.genome.getLength; i++ ) {
 
-				childOneGenome[i] = partnerGenome[i];
-				childTwoGenome[i] = this.genome[i];
+				childOneGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
+				childTwoGenome.setDataBit( i, this.genome.getDataBit( i ) );
 
 			}
 
@@ -274,14 +134,14 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 		int range = (int) ( 1 / this.simulation.getMutationRate() );
 		int randomNumber;
 
-		for ( int i = 0; i < this.genome.length; i++ ) {
+		for ( int i = 0; i < this.genome.getLength(); i++ ) {
 
 			randomNumber = this.simulation.getRandomInteger() % range;
 
-			if ( randomNumber == 0 ) {
+			if ( randomNumber == 0 ) { // 1 in range chance
 
 				this.isMutated = true;
-				this.genome[i] = !this.genome[i];
+				this.genome.setDataBit( i, !this.genome.getDataBit( i ) );
 
 			}
 		}
@@ -289,13 +149,4 @@ public class Creature implements GenomeSequencer, Comparable<Creature> {
 		
 	}
 }
-
-
-
-
-
-
-
-
-
 
