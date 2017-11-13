@@ -18,7 +18,7 @@ public class Genome {
 
 		for (int i = 0; i < this.data.length; i++) {
 
-			boolean b = this.simulation.getRandomBoolean();
+			boolean b = this.owner.getSimulation().getRandomBoolean();
 			this.data[i] = b;
 
 		}
@@ -88,7 +88,7 @@ public class Genome {
 
 	}
 
-	public void printNotes () {
+	public void printTraits() {
 
 		String notes = new String();
 		for(int i = 0; i < this.data.length; i += this.bitsPerGene ) {
@@ -191,5 +191,7 @@ public class Genome {
 		return gene;
 
 	}
+
+}
 
 

@@ -35,6 +35,9 @@ public class Simulation {
 		desiredCreature = new Creature( this );
 		desiredCreature.setGenome( desiredGenome );
 
+		/*Init Data*/
+		previousGenerations = new ArrayList< Population > ();
+
 	}	
 
 	public double getMutationRate () {
@@ -49,7 +52,7 @@ public class Simulation {
 		System.out.println("This is the creature we want:");
 
 		desiredCreature.printGenome();
-		desiredCreature.printNotes();
+		desiredCreature.printTraits();
 
 		/*Initialize first Population*/
 		int populationSize = 200;
@@ -73,9 +76,9 @@ public class Simulation {
 		if ( currentGeneration.getContainsPerfectCreature() ) {
 
 			System.out.println ( "Desired Creature achieved. Here it is! :");
-			currentGeneration.getTopCreature().printNotes();
+			currentGeneration.getTopCreature().printTraits();
 			System.out.println ( "Compared to what we wanted : " );
-			desiredCreature.printNotes();
+			desiredCreature.printTraits();
 			System.out.println ( "It only took " + numGenerations + " generations." );
 
 		}
@@ -102,7 +105,7 @@ public class Simulation {
 	private void nextGeneration() {
 
 		currentGeneration.testCreatures();
-		//previousGenerations.add( currentGeneration );
+		previousGenerations.add( currentGeneration );
 
 		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
 			this.isSimulationComplete = true;
@@ -119,12 +122,12 @@ public class Simulation {
 		boolean isPerfectMatch = true;
 
 		/*Compare traits with desired creature*/
-		boolean[] genomeUnderTest = c.getGenome();
-		boolean[] desiredGenome = this.desiredCreature.getGenome();
+		boolean[] genomeUnderTest = c.getGenome().getData();
+		boolean[] desiredGenome = this.desiredCreature.getGenome().getData();
 
 		int fitness = 0;
 		int index = 0;
-		int bitsPerGene = c.getBitsPerGene();
+		int bitsPerGene = c.getGenome().getBitsPerGene();
 
 
 		for (int i = 0; i < genomeUnderTest.length; i += bitsPerGene) {

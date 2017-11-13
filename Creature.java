@@ -13,7 +13,7 @@ public class Creature implements Comparable<Creature> {
 
 		this.simulation = sim;
 
-		this.genome = new genome( this, this.genomeStartingLength );
+		this.genome = new Genome( this, this.genomeStartingLength );
 		this.genome.scramble();
 
 	}
@@ -24,8 +24,8 @@ public class Creature implements Comparable<Creature> {
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation(); 
 
-		this.genome = new genome( this, this.genomeStartingLength );
-		this.this.genome.scramble();
+		this.genome = new Genome( this, this.genomeStartingLength );
+		this.genome.scramble();
 
 	}
 
@@ -34,7 +34,7 @@ public class Creature implements Comparable<Creature> {
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation();
 
-		this.genome = new genome( this, this.genomeStartingLength );
+		this.genome = new Genome( this, this.genomeStartingLength );
 		this.setGenome( genome );
 	}
 
@@ -43,7 +43,7 @@ public class Creature implements Comparable<Creature> {
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation();
 
-		this.genome = new genome( this, this.genomeStartingLength );
+		this.genome = new Genome( this, this.genomeStartingLength );
 		this.setGenome( genome );
 	}
 
@@ -66,15 +66,33 @@ public class Creature implements Comparable<Creature> {
 
 	}
 
-	public boolean getIsMutated() {
+	public Simulation getSimulation () {
+
+		return this.simulation;
+
+	}
+
+	public boolean getIsMutated () {
 
 		return this.isMutated;
+
+	}
+
+	public void printTraits () {
+
+		this.genome.printTraits();
 
 	}
 
 	public void printGenome () {
 
 		this.genome.printData();
+
+	}
+
+	public void setGenome ( Genome newGenome ) {
+
+		this.genome = newGenome;
 
 	}
 
@@ -102,7 +120,7 @@ public class Creature implements Comparable<Creature> {
 		Genome partnerGenome = partner.getGenome();
 
 		Genome childOneGenome = new Genome( childOne, this.genome.getLength() );
-		Genome childTwoGenome = new Genome( childTwo, this.genome.getLength() ): 
+		Genome childTwoGenome = new Genome( childTwo, this.genome.getLength() ); 
 		
 		for ( int i = 0; i <= crossoverPoint; i++ ) {
 			
@@ -110,9 +128,9 @@ public class Creature implements Comparable<Creature> {
 			childTwoGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
 		}
 
-		if ( crossoverPoint != (this.genome.getLength - 1) ) {
+		if ( crossoverPoint != (this.genome.getLength() - 1) ) {
 
-			for ( int i = crossoverPoint + 1; i < this.genome.getLength; i++ ) {
+			for ( int i = crossoverPoint + 1; i < this.genome.getLength(); i++ ) {
 
 				childOneGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
 				childTwoGenome.setDataBit( i, this.genome.getDataBit( i ) );
