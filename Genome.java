@@ -1,6 +1,6 @@
 public class Genome {
 
-	public static final char[] Notes = { 'r', 'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+	public static final char[] Notes = { 'C', 'D', 'E', 'F', 'G', 'A', 'B', 'r' };
 
 	private Creature owner;
 

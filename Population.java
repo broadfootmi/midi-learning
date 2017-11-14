@@ -134,7 +134,7 @@ public class Population {
 				maxFitness = c.getFitness();
 			}
 		}
-		int averageFitness = (int) (totalFitness / this.creatures.size());
+		int averageFitness = totalFitness / this.creatures.size();
 		System.out.println( "Average fitness of this generation is: " + averageFitness );
 		System.out.println( "Maximum fitness is: " + maxFitness );
 	}

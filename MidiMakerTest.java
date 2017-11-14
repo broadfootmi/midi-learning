@@ -4,7 +4,10 @@ public class MidiMakerTest {
 
 		MidiMaker midiMaker = new MidiMaker();
 
-		midiMaker.makeSong();
+		String songString = "AAABCCBBAAGGAABBCCBBBBABCCBBrrAAGGrr";
+		char[] song = songString.toCharArray();
+
+		midiMaker.makeSong( song );
 	}
 
 }
