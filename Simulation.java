@@ -46,6 +46,12 @@ public class Simulation {
 
 	}
 
+	public int getCurrentGenerationIndex () {
+
+		return this.numGenerations;
+
+	}
+
 	public void start () {
 
 		/*Desired Creature*/

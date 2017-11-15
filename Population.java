@@ -76,6 +76,12 @@ public class Population {
 
 	}
 
+	public int getCreatureIndex( Creature c ) {
+
+		return this.creatures.indexOf( c );
+
+	}
+
 	public void testCreatures () {
 
 		for (Creature c : this.creatures) {

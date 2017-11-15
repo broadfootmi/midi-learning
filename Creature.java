@@ -5,45 +5,48 @@ public class Creature implements Comparable<Creature> {
 
 	private Genome genome;
 	private int genomeStartingLength = 108;
-	private int fitness;
-	private boolean isMutated = false;
 	private boolean isFitnessDetermined = false;
 
-	public Creature ( Simulation sim ) { //Deprecate - just need to initialize a solution creature in its own population.
+	private String name;
 
-		this.simulation = sim;
+	private int generationIndex;
+	private int fitness;
+	private boolean isMutated = false;
+
+	private Creature () {
 
 		this.genome = new Genome( this, this.genomeStartingLength );
-		this.genome.scramble();
 
+	}
+
+	public Creature ( Simulation sim ) { 
+
+		this();
+		this.simulation = sim;
+		this.genome.scramble();
 	}
 
 	public Creature ( Population pop ) {
 
-
+		this();
 		this.residence = pop;
 		this.simulation = this.residence.getSimulation(); 
 
-		this.genome = new Genome( this, this.genomeStartingLength );
 		this.genome.scramble();
+		this.generationIndex = this.simulation.getCurrentGenerationIndex();
 
 	}
 
 	public Creature ( Population pop, boolean[] genome ) {
 
-		this.residence = pop;
-		this.simulation = this.residence.getSimulation();
-
-		this.genome = new Genome( this, this.genomeStartingLength );
+		this( pop );
 		this.setGenome( genome );
+
 	}
 
 	public Creature ( Population pop, char[] genome ) {
 
-		this.residence = pop;
-		this.simulation = this.residence.getSimulation();
-
-		this.genome = new Genome( this, this.genomeStartingLength );
+		this( pop );
 		this.setGenome( genome );
 	}
 
@@ -53,7 +56,7 @@ public class Creature implements Comparable<Creature> {
 
 			this.fitness = fit;
 			this.isFitnessDetermined = true;
-
+			this.nameCreature();
 		}
 
 	}
@@ -111,6 +114,18 @@ public class Creature implements Comparable<Creature> {
 	public Genome getGenome () {
 
 		return this.genome;
+
+	}
+
+	private void nameCreature () {
+
+		this.name = "g" + this.generationIndex + "c" + this.residence.getCreatureIndex( this ) + "f" + this.fitness; 
+
+		if( this.isMutated ) {
+
+			this.name += "m";
+
+		}
 
 	}
 
