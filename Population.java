@@ -7,12 +7,17 @@ public class Population {
 	private ArrayList< Creature > creatures;
 	private boolean containsPerfectCreature = false;
 
+	private Population () {
+
+		this.creatures = new ArrayList< Creature >();
+
+	}
 
 	public Population (Simulation sim, int size) {
 
-		this.simulation = sim;
-		this.creatures = new ArrayList< Creature >();
+		this();
 
+		this.simulation = sim;
 
 		for (int i = 0; i < size; i++) {
 			
@@ -21,13 +26,13 @@ public class Population {
 
 		}
 
-
 	}
 
 	public Population (Population parentGeneration) {
 
+		this();
+
 		this.simulation = parentGeneration.getSimulation();
-		this.creatures = new ArrayList< Creature >();
 
 		int numPairs = parentGeneration.getSize() / 2;
 		for (int i = 0; i < numPairs; i++) {

@@ -119,11 +119,21 @@ public class Creature implements Comparable<Creature> {
 
 	private void nameCreature () {
 
-		this.name = "g" + this.generationIndex + "c" + this.residence.getCreatureIndex( this ) + "f" + this.fitness; 
+		try {
 
-		if( this.isMutated ) {
+			this.name = "g" + this.generationIndex + "c" + this.residence.getCreatureIndex( this ) + "f" + this.fitness; 
 
-			this.name += "m";
+			if( this.isMutated ) {
+
+				this.name += "m";
+
+			}
+
+		} catch( NullPointerException e ) {
+
+			e.printStackTrace();
+			System.out.println("Could not name creature - missing generation or fitness info.");
+			this.name = "null";
 
 		}
 
