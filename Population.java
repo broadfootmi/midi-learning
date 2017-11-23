@@ -6,6 +6,7 @@ public class Population {
 	private Simulation simulation;
 	private ArrayList< Creature > creatures;
 	private boolean containsPerfectCreature = false;
+	private int generationIndex;
 
 	private Population () {
 
@@ -87,6 +88,18 @@ public class Population {
 
 	}
 
+	public int getGenerationIndex () {
+
+		return this.generationIndex;
+
+	}
+	
+	public void setGenerationIndex ( int index ) {
+
+		this.generationIndex = index;
+
+	}
+
 	public void testCreatures () {
 
 		for (Creature c : this.creatures) {
@@ -103,8 +116,32 @@ public class Population {
 
 		/*Sort Population by Fitness*/
 		Collections.sort( this.creatures );
-		printFitnesses();
+		//printFitnesses();
 		//printStatistics();
+
+	}
+
+	public void nameCreatures () {
+
+		for (Creature c : this.creatures) {
+
+			c.nameCreature();
+
+		}
+
+		this.printNames();
+
+	}
+
+	private void printNames () {
+
+		for( Creature c : this.creatures ) {
+
+			System.out.print( c.getName() + " " );
+
+		}
+
+		System.out.println();
 
 	}
 

@@ -1,7 +1,9 @@
 public class Creature implements Comparable<Creature> {
 
 	private Simulation simulation;
-	private Population residence;
+
+	private Population generation;
+	private boolean hasPopulation = true;
 
 	private Genome genome;
 	private int genomeStartingLength = 108;
@@ -9,7 +11,6 @@ public class Creature implements Comparable<Creature> {
 
 	private String name;
 
-	private int generationIndex;
 	private int fitness;
 	private boolean isMutated = false;
 
@@ -19,25 +20,26 @@ public class Creature implements Comparable<Creature> {
 
 	}
 
-	public Creature ( Simulation sim ) { 
+	public Creature ( Simulation sim ) { //Lone Creature
 
 		this();
 		this.simulation = sim;
 		this.genome.scramble();
+		this.hasPopulation = false;
+
 	}
 
-	public Creature ( Population pop ) {
+	public Creature ( Population pop ) { //Random Creature
 
 		this();
-		this.residence = pop;
-		this.simulation = this.residence.getSimulation(); 
+		this.generation = pop;
+		this.simulation = this.generation.getSimulation(); 
 
 		this.genome.scramble();
-		this.generationIndex = this.simulation.getCurrentGenerationIndex();
 
 	}
 
-	public Creature ( Population pop, boolean[] genome ) {
+	public Creature ( Population pop, boolean[] genome ) { //Child Creature
 
 		this( pop );
 		this.setGenome( genome );
@@ -56,12 +58,31 @@ public class Creature implements Comparable<Creature> {
 
 			this.fitness = fit;
 			this.isFitnessDetermined = true;
-			this.nameCreature();
+
 		}
 
 	}
 
 	public int getFitness () { return this.fitness; }
+
+	public String getName () { 
+
+		try {
+
+			String name = this.name;
+
+		} catch( NullPointerException e ) {
+
+			e.printStackTrace();
+			String name = "No Name";
+
+		} finally {
+
+			return name;
+
+		}
+
+	}
 
 	public int compareTo( Creature otherCreature ) {
 
@@ -117,23 +138,37 @@ public class Creature implements Comparable<Creature> {
 
 	}
 
-	private void nameCreature () {
+	public void nameCreature () {
 
-		try {
+		if( this.hasPopulation ) {
 
-			this.name = "g" + this.generationIndex + "c" + this.residence.getCreatureIndex( this ) + "f" + this.fitness; 
+			try {
 
-			if( this.isMutated ) {
+				String generationIndex = String.format( "%03d", this.generation.getGenerationIndex() );
+				String creatureIndex = String.format( "%03d", this.generation.getCreatureIndex( this ) );
+				String fitness = String.format( "%02d", this.fitness );
 
-				this.name += "m";
+				this.name = "g" + generationIndex + "c" + creatureIndex + "f" + fitness; 
+
+			} catch( NullPointerException e ) {
+
+				e.printStackTrace();
+				System.out.println("Could not name creature - missing generation or fitness info.");
+				this.name = "null";
 
 			}
 
-		} catch( NullPointerException e ) {
+				if( this.isMutated ) {
 
-			e.printStackTrace();
-			System.out.println("Could not name creature - missing generation or fitness info.");
-			this.name = "null";
+					this.name += "m";
+
+				}
+
+		}
+
+		else {
+
+			this.name = "solution";
 
 		}
 

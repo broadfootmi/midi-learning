@@ -76,7 +76,9 @@ public class Simulation {
 		System.out.println("Done!");
 
 		if ( numGenerations == maxNumGenerations ) {
+
 			System.out.println ( "Generation limit reached." );
+
 		}
 
 		if ( currentGeneration.getContainsPerfectCreature() ) {
@@ -112,6 +114,8 @@ public class Simulation {
 
 		currentGeneration.testCreatures();
 		previousGenerations.add( currentGeneration );
+		currentGeneration.setGenerationIndex( previousGenerations.size() - 1 );
+		currentGeneration.nameCreatures();
 
 		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
 			this.isSimulationComplete = true;
