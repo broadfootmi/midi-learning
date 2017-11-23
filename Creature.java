@@ -144,8 +144,8 @@ public class Creature implements Comparable<Creature> {
 
 			try {
 
-				String generationIndex = String.format( "%03d", this.generation.getGenerationIndex() );
-				String creatureIndex = String.format( "%03d", this.generation.getCreatureIndex( this ) );
+				String generationIndex = String.format( "%03d", this.generation.getGenerationIndex() + 1 ); //Indexing starts at 1!!! (For naming purposes only)
+				String creatureIndex = String.format( "%03d", this.generation.getCreatureIndex( this ) + 1 );
 				String fitness = String.format( "%02d", this.fitness );
 
 				this.name = "g" + generationIndex + "c" + creatureIndex + "f" + fitness; 

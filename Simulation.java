@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.awt.Frame;
 
 public class Simulation {
 
@@ -22,6 +23,9 @@ public class Simulation {
 	private Random rng;
 	private CreatureRoulette roulette;
 
+	/*GUI*/
+	private SimulationGUI gui;
+
 	public Simulation() {
 
 		/*Init RNG*/
@@ -37,6 +41,10 @@ public class Simulation {
 
 		/*Init Data*/
 		previousGenerations = new ArrayList< Population > ();
+
+		/*Init GUI*/
+		gui = new SimulationGUI();
+		gui.start();
 
 	}	
 
@@ -71,6 +79,8 @@ public class Simulation {
 			this.nextGeneration();
 
 		}
+		/*DEBUG GUI*/
+		gui.displayPopulation( currentGeneration );
 
 		/*Display Results*/
 		System.out.println("Done!");
@@ -116,6 +126,10 @@ public class Simulation {
 		previousGenerations.add( currentGeneration );
 		currentGeneration.setGenerationIndex( previousGenerations.size() - 1 );
 		currentGeneration.nameCreatures();
+
+		//Display creatures in GUI
+		//
+		//Await user input
 
 		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
 			this.isSimulationComplete = true;
