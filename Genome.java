@@ -76,6 +76,21 @@ public class Genome {
 
 	}
 
+	public char[] getDataAsNotes () {
+
+		String notes = new String();
+
+		for( int i = 0; i < data.length; i += bitsPerGene ) {
+
+			boolean[] note = { data[i], data[i+1], data[i+2] };
+			notes += getNote( note );
+
+		}
+
+		return notes.toCharArray();
+
+	}
+
 	public int getLength () {
 
 		return this.data.length;
@@ -90,14 +105,8 @@ public class Genome {
 
 	public void printTraits() {
 
-		String notes = new String();
-		for(int i = 0; i < this.data.length; i += this.bitsPerGene ) {
-
-			boolean[] note = { this.data[i], this.data[i+1], this.data[i+2] };
-			notes += getNote( note );
-
-		}
-		System.out.println( notes );
+		char[] notes = getDataAsNotes();
+		System.out.println( notes.toString() );
 
 	}
 

@@ -132,6 +132,21 @@ public class Creature implements Comparable<Creature> {
 
 	}
 
+	public String getSong () {
+
+		String song = new String();
+
+		char[] notes = genome.getDataAsNotes();
+
+		for( char note : notes ) {
+
+			song += note;
+
+		}
+
+		return song;
+	}
+
 	public Genome getGenome () {
 
 		return this.genome;
@@ -158,11 +173,11 @@ public class Creature implements Comparable<Creature> {
 
 			}
 
-				if( this.isMutated ) {
+			if( this.isMutated ) {
 
-					this.name += "m";
+				this.name += "m";
 
-				}
+			}
 
 		}
 

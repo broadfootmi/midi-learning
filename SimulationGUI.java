@@ -4,15 +4,18 @@ import java.util.ArrayList;
 
 public class SimulationGUI {
 
-	JFrame frame;
-	ArrayList< CreatureInfoPanel > creatureInfoPanels;
+	private JFrame frame;
+
+	private ArrayList< CreatureInfoPanel > creatureInfoPanels;
+	private int creatureRows = 0;
+	private int creatureColumns = 8;
 
 	SimulationGUI () {
 
 		frame = new JFrame( "MIDI Learning" );
 		frame.setSize( 640, 480 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().setLayout( new GridLayout( 0, 3 ) );
+		frame.getContentPane().setLayout( new GridLayout( creatureRows, creatureColumns ) );
 
 		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
 
@@ -36,9 +39,16 @@ public class SimulationGUI {
 
 		}
 
-		for( CreatureInfoPanel panel : creatureInfoPanels ) {
+		int numRows = creatureInfoPanels.size() / creatureColumns;
+		int numCols = creatureColumns;
 
-			frame.getContentPane().add( panel );
+		for( int row = 0; row < numRows; row++ ) {
+
+			for( int col = 0; col < numCols; col++ ) {
+
+				frame.getContentPane().add( creatureInfoPanels.get( row + numRows * col ) );
+
+			}
 
 		}
 

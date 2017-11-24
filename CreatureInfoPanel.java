@@ -1,10 +1,13 @@
+import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 public class CreatureInfoPanel extends JPanel { 
 
 	Creature creature;
 
-	JLabel name;
+	JLabel creatureSprite;
+	JLabel songLabel;
 	//image for image
 	//textlabel for notes
 	//panel for fitness
@@ -17,15 +20,19 @@ public class CreatureInfoPanel extends JPanel {
 
 		setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
 
-		name = new JLabel( creature.getName() ); 
+		songLabel = new JLabel( creature.getSong() ); 
+		creatureSprite = new JLabel( new ImageIcon( "creature.png" ) ); 
 
-		add( this.name );
+		add( creatureSprite );
+		add( songLabel );
+
+
+		this.setBackground( Color.gray );
+		this.setBorder( new LineBorder( Color.black, 2, false ) );
 
 	}
 	
-	//paintComponent() {
-
-	//	name.repaint();
+	//	songLabel.repaint();
 		//image.set("crea");
 		//image.repaint();
 		//text.setText("FIT")
