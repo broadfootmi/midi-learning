@@ -15,7 +15,7 @@ public class SimulationGUI {
 		frame = new JFrame( "MIDI Learning" );
 		frame.setSize( 640, 480 );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().setLayout( new GridLayout( creatureRows, creatureColumns ) );
+		frame.getContentPane().setLayout( new GridLayout( creatureRows, creatureColumns , 16, 0 ) );
 
 		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
 

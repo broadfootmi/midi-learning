@@ -106,7 +106,7 @@ public class Genome {
 	public void printTraits() {
 
 		char[] notes = getDataAsNotes();
-		System.out.println( notes.toString() );
+		System.out.println( String.valueOf( notes ) );
 
 	}
 

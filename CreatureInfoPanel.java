@@ -20,7 +20,7 @@ public class CreatureInfoPanel extends JPanel {
 
 		setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
 
-		songLabel = new JLabel( creature.getSong() ); 
+		songLabel = new JLabel( creature.getName() ); 
 		creatureSprite = new JLabel( new ImageIcon( "creature.png" ) ); 
 
 		add( creatureSprite );
