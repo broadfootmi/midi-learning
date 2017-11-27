@@ -128,7 +128,6 @@ public class Genome {
 
 	}
 
-
 	public char getNote( boolean[] gene ) {
 		/*Gene -> Binary String -> Char*/
 		String binary = new String();

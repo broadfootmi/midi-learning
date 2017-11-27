@@ -80,7 +80,8 @@ public class Simulation {
 
 		}
 		/*DEBUG GUI*/
-		gui.displayPopulation( currentGeneration );
+		//gui.displayPopulation( currentGeneration );
+		gui.displayPopulation( previousGenerations.get(0) );
 
 		/*Display Results*/
 		System.out.println("Done!");
