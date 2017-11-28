@@ -16,45 +16,60 @@ public class Genome {
 
 	public void scramble () {
 
-		for (int i = 0; i < this.data.length; i++) {
+		for ( int i = 0; i < data.length; i++ ) {
 
-			boolean b = this.owner.getSimulation().getRandomBoolean();
-			this.data[i] = b;
+			boolean b = owner.getSimulation().getRandomBoolean();
+			data[i] = b;
 
 		}
 
 	}
 
-	public void setData ( boolean[] newData ) {
+	public void setData ( boolean[] data ) {
 
-		if (newData.length == this.data.length) {
-			System.arraycopy( newData, 0, this.data, 0, this.data.length);
-		}
+		try {
+			
+			System.arraycopy( data, 0, this.data, 0, this.data.length);
+		
+		} catch( IndexOutOfBoundsException e ) {
 
-		else {
-			System.out.println("Wrong genome for this creature!");
+			e.printStackTrace();
+			System.out.println( "Can't copy data, mismatched dna length." );
+				
+		} catch( Exception e ) {
+
+			e.printStackTrace();
+
 		}
 
 	}
 
-	public void setData ( char[] newTraits ) {
+	public void setData ( char[] notes ) {
 
-		boolean[] newData = new boolean[this.data.length];
+		boolean[] data = new boolean[this.data.length];
 
 		int binaryIndex = 0;
 
-		for ( char note : newTraits ) {
+		for ( char note : notes ) {
 
-			boolean[] gene = new boolean[this.bitsPerGene];
+			boolean[] gene = new boolean[bitsPerGene];
 			gene = getGene( note );
 
-			System.arraycopy( gene, 0, newData, binaryIndex, gene.length );
+			try {
 
-			binaryIndex += this.bitsPerGene;
+				System.arraycopy( gene, 0, data, binaryIndex, gene.length );
+
+			} catch( Exception e ) {
+
+				e.printStackTrace();
+
+			}
+
+			binaryIndex += bitsPerGene;
 
 		}
 
-		this.setData( newData );
+		setData( data );
 
 	}
 
@@ -66,13 +81,13 @@ public class Genome {
 
 	public boolean getDataBit ( int index ) {
 
-		return this.data[index];
+		return data[index];
 
 	}
 
 	public boolean[] getData () {
 
-		return this.data;
+		return data;
 
 	}
 
@@ -93,13 +108,13 @@ public class Genome {
 
 	public int getLength () {
 
-		return this.data.length;
+		return data.length;
 
 	}
 
 	public int getBitsPerGene() {
 
-		return this.bitsPerGene;
+		return bitsPerGene;
 
 	}
 
@@ -112,14 +127,18 @@ public class Genome {
 
 	public void printData () {
 
-		for (int i = 0; i < this.data.length; i++) {
+		for ( int i = 0; i < data.length; i++ ) {
 
-			if ( this.data[i] == true ) {
+			if ( data[i] == true ) {
+
 				System.out.print(1);
+
 			}
 
 			else {
+
 				System.out.print(0);
+
 			}
 
 		}
@@ -153,7 +172,7 @@ public class Genome {
 	public boolean[] getGene( char note ) {
 		/*Char -> Binary String -> Gene*/
 		int geneInt = 0;
-		boolean[] gene = new boolean[this.bitsPerGene];
+		boolean[] gene = new boolean[bitsPerGene];
 
 		for (int i = 0; i < Notes.length; i++) {
 
@@ -166,13 +185,12 @@ public class Genome {
 
 		String binary = Integer.toBinaryString( geneInt );
 
-		if (binary.length() < this.bitsPerGene) { //Pad bits
+		if (binary.length() < bitsPerGene) { //Pad bits. Use formatter instead?
 
-			int padBits = Math.abs( binary.length() - this.bitsPerGene );
-
+			int padBits = Math.abs( binary.length() - bitsPerGene );
 
 			String pad = new String();
-			for (int i = 0; i < padBits; i++ ) {
+			for ( int i = 0; i < padBits; i++ ) {
 
 				pad = pad.concat("0");
 			
@@ -181,17 +199,21 @@ public class Genome {
 			binary = pad + binary;
 		}
 
-		binary.substring( binary.length() - this.bitsPerGene ); //Cut bits
+		binary.substring( binary.length() - bitsPerGene ); //Cut bits
 
 		
-		for (int i = 0; i < this.bitsPerGene; i++) {
+		for ( int i = 0; i < bitsPerGene; i++ ) {
 
 			if (binary.charAt(i) == '1') {
+
 				gene[i] = true; 
+
 			}
 
 			else {
+
 				gene[i] = false;
+
 			}
 
 		}

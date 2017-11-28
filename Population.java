@@ -14,128 +14,123 @@ public class Population {
 
 	}
 
-	public Population (Simulation sim, int size) {
+	public Population ( Simulation simulation, int size ) {
 
 		this();
 
-		this.simulation = sim;
+		this.simulation = simulation;
 
-		for (int i = 0; i < size; i++) {
+		for ( int i = 0; i < size; i++ ) {
 			
-			Creature c = new Creature(this);
-			this.creatures.add(c);
+			Creature c = new Creature( this );
+			creatures.add(c);
 
 		}
 
 	}
 
-	public Population (Population parentGeneration) {
+	public Population ( Population parentGeneration ) {
 
 		this();
 
-		this.simulation = parentGeneration.getSimulation();
+		simulation = parentGeneration.getSimulation();
 
 		int numPairs = parentGeneration.getSize() / 2;
-		for (int i = 0; i < numPairs; i++) {
+		for ( int i = 0; i < numPairs; i++ ) {
 			
-			Creature mateOne = this.simulation.chooseCreature( parentGeneration );
-			Creature mateTwo = this.simulation.chooseCreature( parentGeneration );
+			Creature mateOne = simulation.chooseCreature( parentGeneration );
+			Creature mateTwo = simulation.chooseCreature( parentGeneration );
 
 			Creature childOne = new Creature( this );
 			Creature childTwo = new Creature( this );
 
 			mateOne.crossover( mateTwo, childOne, childTwo );
 
-			this.creatures.add( childOne );
-			this.creatures.add( childTwo );
+			creatures.add( childOne );
+			creatures.add( childTwo );
 		}
 
 	}
 
 	public int getSize () { 
 		
-		return this.creatures.size(); 
+		return creatures.size(); 
 
 	}
 
 	public Creature getTopCreature () {
 
-		return this.creatures.get(0);
+		return creatures.get(0);
 
 	}
 
 	public boolean getContainsPerfectCreature () {
 
-		return this.containsPerfectCreature;
+		return containsPerfectCreature;
 
 	}
 
 	public Simulation getSimulation () {
 		
-		return this.simulation;
+		return simulation;
 
 	}
 
 	public ArrayList< Creature > getCreatures () {
 
-		return this.creatures;
+		return creatures;
 
 	}
 
 	public int getCreatureIndex( Creature c ) {
 
-		return this.creatures.indexOf( c );
+		return creatures.indexOf( c );
 
 	}
 
 	public int getGenerationIndex () {
 
-		return this.generationIndex;
+		return generationIndex;
 
 	}
 	
 	public void setGenerationIndex ( int index ) {
 
-		this.generationIndex = index;
+		generationIndex = index;
 
 	}
 
 	public void testCreatures () {
 
-		for (Creature c : this.creatures) {
+		for ( Creature c : creatures ) {
 
-			boolean perfectCreature = this.simulation.testCreature( c );
+			boolean perfectCreature = simulation.testCreature( c );
 
 			if ( perfectCreature ) {
 
-				this.containsPerfectCreature = true;
+				containsPerfectCreature = true;
 
 			}
 
 		}
 
-		/*Sort Population by Fitness*/
-		Collections.sort( this.creatures );
-		//printFitnesses();
-		//printStatistics();
+		Collections.sort( creatures ); //By Fitness
 
 	}
 
 	public void nameCreatures () {
 
-		for (Creature c : this.creatures) {
+		for (Creature c : creatures) {
 
 			c.nameCreature();
 
 		}
 
-		//this.printNames();
-
 	}
 
 	private void printNames () {
 
-		for( Creature c : this.creatures ) {
+		for( Creature c : creatures ) {
 
 			System.out.print( c.getName() + " " );
 
@@ -148,9 +143,11 @@ public class Population {
 	public void printFitnesses () {
 
 		System.out.println( "These are the population's fitness levels: " );
-		for (Creature c : this.creatures) {
+
+		for (Creature c : creatures) {
 
 			String info = new String();
+
 			if ( c.getIsMutated() ) {
 				
 				info += ( "m" + c.getFitness() + " ");
@@ -176,17 +173,24 @@ public class Population {
 
 		int totalFitness = 0;
 		int maxFitness = 0;
-		for (Creature c : this.creatures) {
+
+		for (Creature c : creatures) {
+
 			totalFitness += c.getFitness();
+
 			if ( c.getFitness() > maxFitness ) {
+
 				maxFitness = c.getFitness();
+
 			}
+
 		}
-		int averageFitness = totalFitness / this.creatures.size();
+
+		int averageFitness = totalFitness / creatures.size();
 		System.out.println( "Average fitness of this generation is: " + averageFitness );
 		System.out.println( "Maximum fitness is: " + maxFitness );
+
 	}
 
-	
-
 }
+

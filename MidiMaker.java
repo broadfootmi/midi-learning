@@ -11,6 +11,7 @@ public class MidiMaker {
 	private int ticksPerBeat = 2;
 	private int noteVelocity = 64;
 	private int octave = 5;
+	private final int notesPerOctave = 12;
 	
 	public MidiMaker () {
 
@@ -22,15 +23,17 @@ public class MidiMaker {
 
 			System.out.println("No Sequencer Available.");
 
-		}
+		} finally {
 
-		this.initNotePitchMap();
+			initNotePitchMap();
+
+		}
 
 	}
 
 	private int getPitch( char note, int octave ) {
 
-		return this.notePitchMap.get( note ) + 12 * octave;
+		return notePitchMap.get( note ) + notesPerOctave * octave;
 
 	}
 
@@ -40,7 +43,9 @@ public class MidiMaker {
 		char[] allNotes = { 'C', 'd', 'D', 'e', 'E', 'F', 'g', 'G', 'a', 'A', 'b', 'B', 'r' }; // Lower case means flat. 'r' means rest.
 
 		for( int i = 0; i < allNotes.length; i++ ) {
+
 			notePitchMap.put( allNotes[i], i );
+
 		}
 	}
 
@@ -49,6 +54,7 @@ public class MidiMaker {
 
 
 		Sequence sequence = null;
+
 		try {
 
 			sequence = new Sequence( Sequence.PPQ, this.ticksPerBeat );
@@ -93,10 +99,10 @@ public class MidiMaker {
 
 				tickOff = tickOn + duration - 1;
 
-				int pitch = this.getPitch( note, this.octave );
+				int pitch = getPitch( note, octave );
 
 				try {
-					noteOn = new ShortMessage( ShortMessage.NOTE_ON, pitch, this.noteVelocity );
+					noteOn = new ShortMessage( ShortMessage.NOTE_ON, pitch, noteVelocity );
 					noteOff = new ShortMessage( ShortMessage.NOTE_OFF, pitch, 0);
 
 				} catch ( InvalidMidiDataException e ) {
@@ -120,18 +126,26 @@ public class MidiMaker {
 		}
 
 		try {
-			this.sequencer.setSequence( sequence );
+
+			sequencer.setSequence( sequence );
+
 		} catch ( InvalidMidiDataException e ) {
+
 			System.out.println("could not set sequence");
+
 		}
 
 		try {
-			this.sequencer.open();
+
+			sequencer.open();
+
 		} catch ( MidiUnavailableException e ) {
+
 			System.out.println("Sequencer unavailable");
+
 		}
 
-		this.sequencer.start();
+		sequencer.start();
 
 	}
 

@@ -11,7 +11,6 @@ public class CreatureInfoPanel extends JPanel {
 
 	JLabel creatureSprite;
 	JLabel songLabel;
-	//panel for fitness
 	//	textlabel FIT
 	//	textlabel 36
 
@@ -44,8 +43,8 @@ public class CreatureInfoPanel extends JPanel {
 		add( creatureSprite );
 		add( songLabel );
 
-		this.setBackground( Color.gray );
-		this.setBorder( new LineBorder( Color.black, 2, false ) );
+		setBackground( Color.gray );
+		setBorder( new LineBorder( Color.black, 2, false ) );
 
 	}
 	

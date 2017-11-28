@@ -6,7 +6,7 @@ public class Creature implements Comparable<Creature> {
 	private boolean hasPopulation = true;
 
 	private Genome genome;
-	private int genomeStartingLength = 108;
+	private final int genomeStartingLength = 108;
 	private boolean isFitnessDetermined = false;
 
 	private String name;
@@ -16,119 +16,115 @@ public class Creature implements Comparable<Creature> {
 
 	private Creature () {
 
-		this.genome = new Genome( this, this.genomeStartingLength );
+		genome = new Genome( this, genomeStartingLength );
 
 	}
 
-	public Creature ( Simulation sim ) { //Lone Creature
+	public Creature ( Simulation simulation ) { //Lone Creature
 
 		this();
-		this.simulation = sim;
-		this.genome.scramble();
-		this.hasPopulation = false;
+
+		this.simulation = simulation;
+		genome.scramble();
+		hasPopulation = false;
 
 	}
 
-	public Creature ( Population pop ) { //Random Creature
+	public Creature ( Population population ) { //Random Creature
 
 		this();
-		this.generation = pop;
-		this.simulation = this.generation.getSimulation(); 
 
-		this.genome.scramble();
+		generation = population;
+		simulation = generation.getSimulation(); 
 
-	}
-
-	public Creature ( Population pop, boolean[] genome ) { //Child Creature
-
-		this( pop );
-		this.setGenome( genome );
+		genome.scramble();
 
 	}
 
-	public Creature ( Population pop, char[] genome ) {
+	public Creature ( Population population, boolean[] genome ) { //Child Creature
 
-		this( pop );
-		this.setGenome( genome );
+		this( population );
+
+		setGenome( genome );
+
 	}
 
-	public void setFitness (int fit) {
+	public Creature ( Population population, char[] genome ) {
 
-		if (!this.isFitnessDetermined) {
+		this( population );
 
-			this.fitness = fit;
-			this.isFitnessDetermined = true;
+		setGenome( genome );
+
+	}
+
+	public void setFitness ( int fitness ) {
+
+		if (!isFitnessDetermined) {
+
+			this.fitness = fitness;
+			isFitnessDetermined = true;
 
 		}
 
 	}
 
-	public int getFitness () { return this.fitness; }
+	public int getFitness () { 
+		
+		return fitness; 
+
+	}
 
 	public String getName () { 
 
-		try {
-
-			String name = this.name;
-
-		} catch( NullPointerException e ) {
-
-			e.printStackTrace();
-			String name = "No Name";
-
-		} finally {
-
-			return name;
-
-		}
+		return name;
 
 	}
 
 	public int compareTo( Creature otherCreature ) {
 
-		return ( otherCreature.getFitness() - this.getFitness() );
+		return ( otherCreature.getFitness() - getFitness() );
 
 	}
 
 	public Simulation getSimulation () {
 
-		return this.simulation;
+		return simulation;
 
 	}
 
 	public boolean getIsMutated () {
 
-		return this.isMutated;
+		return isMutated;
 
 	}
 
 	public void printTraits () {
 
-		this.genome.printTraits();
+		genome.printTraits();
 
 	}
 
 	public void printGenome () {
 
-		this.genome.printData();
+		genome.printData();
 
 	}
 
-	public void setGenome ( Genome newGenome ) {
+	public void setGenome ( Genome genome ) {
 
-		this.genome = newGenome;
+		this.genome = genome;
 
 	}
 
 	public void setGenome ( boolean[] newData ) {
 
-		this.genome.setData( newData );
+		genome.setData( newData );
 
 	}
 
 	public void setGenome ( char[] newTraits ) {
 
-		this.genome.setData( newTraits );
+		genome.setData( newTraits );
 
 	}
 
@@ -149,33 +145,33 @@ public class Creature implements Comparable<Creature> {
 
 	public Genome getGenome () {
 
-		return this.genome;
+		return genome;
 
 	}
 
 	public void nameCreature () {
 
-		if( this.hasPopulation ) {
+		if( hasPopulation ) {
 
 			try {
 
-				String generationIndex = String.format( "%03d", this.generation.getGenerationIndex() + 1 ); //Indexing starts at 1!!! (For naming purposes only)
-				String creatureIndex = String.format( "%03d", this.generation.getCreatureIndex( this ) + 1 );
-				String fitness = String.format( "%02d", this.fitness );
+				String generationIndex = String.format( "%03d", generation.getGenerationIndex() + 1 ); //Indexing starts at 1!!! (For naming purposes only)
+				String creatureIndex = String.format( "%03d", generation.getCreatureIndex( this ) + 1 );
+				String fitness = String.format( "%02d", fitness );
 
-				this.name = "g" + generationIndex + "c" + creatureIndex + "f" + fitness; 
+				name = "g" + generationIndex + "c" + creatureIndex + "f" + fitness; 
 
 			} catch( NullPointerException e ) {
 
 				e.printStackTrace();
 				System.out.println("Could not name creature - missing generation or fitness info.");
-				this.name = "null";
+				name = "null";
 
 			}
 
-			if( this.isMutated ) {
+			if( isMutated ) {
 
-				this.name += "m";
+				name += "m";
 
 			}
 
@@ -183,7 +179,7 @@ public class Creature implements Comparable<Creature> {
 
 		else {
 
-			this.name = "solution";
+			name = "solution";
 
 		}
 
@@ -191,24 +187,24 @@ public class Creature implements Comparable<Creature> {
 
 	public void crossover (Creature partner, Creature childOne, Creature childTwo) {
 
-		int crossoverPoint = this.simulation.getRandomInteger() % this.genome.getLength();
+		int crossoverPoint = simulation.getRandomInteger() % genome.getLength();
 		Genome partnerGenome = partner.getGenome();
 
-		Genome childOneGenome = new Genome( childOne, this.genome.getLength() );
-		Genome childTwoGenome = new Genome( childTwo, this.genome.getLength() ); 
+		Genome childOneGenome = new Genome( childOne, genome.getLength() );
+		Genome childTwoGenome = new Genome( childTwo, genome.getLength() ); 
 		
 		for ( int i = 0; i <= crossoverPoint; i++ ) {
 			
-			childOneGenome.setDataBit( i, this.genome.getDataBit( i ) );
+			childOneGenome.setDataBit( i, genome.getDataBit( i ) );
 			childTwoGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
 		}
 
-		if ( crossoverPoint != (this.genome.getLength() - 1) ) {
+		if ( crossoverPoint != (genome.getLength() - 1) ) {
 
-			for ( int i = crossoverPoint + 1; i < this.genome.getLength(); i++ ) {
+			for ( int i = crossoverPoint + 1; i < genome.getLength(); i++ ) {
 
 				childOneGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
-				childTwoGenome.setDataBit( i, this.genome.getDataBit( i ) );
+				childTwoGenome.setDataBit( i, genome.getDataBit( i ) );
 
 			}
 
@@ -224,17 +220,17 @@ public class Creature implements Comparable<Creature> {
 
 	public void mutate () {
 
-		int range = (int) ( 1 / this.simulation.getMutationRate() );
+		int range = (int) ( 1 / simulation.getMutationRate() );
 		int randomNumber;
 
-		for ( int i = 0; i < this.genome.getLength(); i++ ) {
+		for ( int i = 0; i < genome.getLength(); i++ ) {
 
-			randomNumber = this.simulation.getRandomInteger() % range;
+			randomNumber = simulation.getRandomInteger() % range;
 
 			if ( randomNumber == 0 ) { // 1 in range chance
 
-				this.isMutated = true;
-				this.genome.setDataBit( i, !this.genome.getDataBit( i ) );
+				isMutated = true;
+				genome.setDataBit( i, !genome.getDataBit( i ) );
 
 			}
 		}

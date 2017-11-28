@@ -27,7 +27,6 @@ public class Recolorer {
 
 		boolean[] data = genome.getData();
 		int bitsPerColor = 8;
-
 		
 		for( int component = 0; component < 3; component++ ) {
 
