@@ -5,12 +5,14 @@ public class Genome {
 	private Creature owner;
 
 	private boolean[] data;
+
+	private int numGenes = 36;
 	private int bitsPerGene = 3;
 
-	public Genome ( Creature owner, int length ) {
+	public Genome ( Creature owner ) {
 
 		this.owner = owner;
-		data = new boolean[length];
+		data = new boolean[numGenes * bitsPerGene];
 
 	}
 
@@ -127,96 +129,42 @@ public class Genome {
 
 	public void printData () {
 
-		for ( int i = 0; i < data.length; i++ ) {
-
-			if ( data[i] == true ) {
-
-				System.out.print(1);
-
-			}
-
-			else {
-
-				System.out.print(0);
-
-			}
-
-		}
-		
-		System.out.println();
+		System.out.println( DataConverter.getBinaryString( data ) );
 
 	}
 
 	public char getNote( boolean[] gene ) {
-		/*Gene -> Binary String -> Char*/
-		String binary = new String();
 
-	       	for( int i = 0; i < gene.length; i++ ) {
-
-			if( gene[i] ) {
-				binary += "1";
-			}
-
-			else {
-				binary += "0";
-			}
-		}
+		String binaryString = DataConverter.getBinaryString( gene, bitsPerGene ); 
 
 		int base = 2;
-		int geneInt = Integer.parseInt( binary, base );
+		int geneInt = Integer.parseInt( binaryString, base );
 
 		return Notes[ geneInt ];
+
 	}
 
 
 	public boolean[] getGene( char note ) {
-		/*Char -> Binary String -> Gene*/
-		int geneInt = 0;
+
 		boolean[] gene = new boolean[bitsPerGene];
+
+		int geneInt = 0;
 
 		for (int i = 0; i < Notes.length; i++) {
 
 			if (Notes[i] == note) {
+
 				geneInt = i;
 				break;
-			}
-
-		}
-
-		String binary = Integer.toBinaryString( geneInt );
-
-		if (binary.length() < bitsPerGene) { //Pad bits. Use formatter instead?
-
-			int padBits = Math.abs( binary.length() - bitsPerGene );
-
-			String pad = new String();
-			for ( int i = 0; i < padBits; i++ ) {
-
-				pad = pad.concat("0");
-			
-			}
-
-			binary = pad + binary;
-		}
-
-		binary.substring( binary.length() - bitsPerGene ); //Cut bits
-
-		
-		for ( int i = 0; i < bitsPerGene; i++ ) {
-
-			if (binary.charAt(i) == '1') {
-
-				gene[i] = true; 
-
-			}
-
-			else {
-
-				gene[i] = false;
 
 			}
 
 		}
+
+		String binaryString = Integer.toBinaryString( geneInt );
+
+		gene = DataConverter.getBooleanArray( binaryString, bitsPerGene );
 
 		return gene;
 

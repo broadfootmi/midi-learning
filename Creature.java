@@ -6,7 +6,6 @@ public class Creature implements Comparable<Creature> {
 	private boolean hasPopulation = true;
 
 	private Genome genome;
-	private final int genomeStartingLength = 108;
 	private boolean isFitnessDetermined = false;
 
 	private String name;
@@ -16,7 +15,7 @@ public class Creature implements Comparable<Creature> {
 
 	private Creature () {
 
-		genome = new Genome( this, genomeStartingLength );
+		genome = new Genome( this );
 
 	}
 
@@ -157,23 +156,24 @@ public class Creature implements Comparable<Creature> {
 
 				String generationIndex = String.format( "%03d", generation.getGenerationIndex() + 1 ); //Indexing starts at 1!!! (For naming purposes only)
 				String creatureIndex = String.format( "%03d", generation.getCreatureIndex( this ) + 1 );
-				String fitness = String.format( "%02d", fitness );
+				String fitness = String.format( "%02d", this.fitness );
 
 				name = "g" + generationIndex + "c" + creatureIndex + "f" + fitness; 
-
-			} catch( NullPointerException e ) {
-
-				e.printStackTrace();
-				System.out.println("Could not name creature - missing generation or fitness info.");
-				name = "null";
-
-			}
 
 			if( isMutated ) {
 
 				name += "m";
 
 			}
+
+			} catch( Exception e ) {
+
+				e.printStackTrace();
+				System.out.println( " Could not format creature name - missing info? " );
+				name = "null";
+
+			}
+
 
 		}
 
@@ -190,8 +190,8 @@ public class Creature implements Comparable<Creature> {
 		int crossoverPoint = simulation.getRandomInteger() % genome.getLength();
 		Genome partnerGenome = partner.getGenome();
 
-		Genome childOneGenome = new Genome( childOne, genome.getLength() );
-		Genome childTwoGenome = new Genome( childTwo, genome.getLength() ); 
+		Genome childOneGenome = new Genome( childOne );
+		Genome childTwoGenome = new Genome( childTwo ); 
 		
 		for ( int i = 0; i <= crossoverPoint; i++ ) {
 			
@@ -233,6 +233,7 @@ public class Creature implements Comparable<Creature> {
 				genome.setDataBit( i, !genome.getDataBit( i ) );
 
 			}
+
 		}
 
 		

@@ -7,15 +7,23 @@ public class SimulationGUI {
 	private JFrame frame;
 
 	private ArrayList< CreatureInfoPanel > creatureInfoPanels;
+
 	private int creatureRows = 0;
 	private int creatureColumns = 8;
+
+	private int creatureSpacingX = 16;
+	private int creatureSpacingY = 0;
+
+	private int resolutionX = 640;
+	private int resolutionY = 480;
 
 	SimulationGUI () {
 
 		frame = new JFrame( "MIDI Learning" );
-		frame.setSize( 640, 480 );
+
+		frame.setSize( resolutionX, resolutionY );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().setLayout( new GridLayout( creatureRows, creatureColumns , 16, 0 ) );
+		frame.getContentPane().setLayout( new GridLayout( creatureRows, creatureColumns , creatureSpacingX, creatureSpacingY ) );
 
 		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
 
@@ -51,6 +59,8 @@ public class SimulationGUI {
 			}
 
 		}
+
+		frame.revalidate();
 
 	}
 

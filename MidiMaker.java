@@ -52,7 +52,6 @@ public class MidiMaker {
 
 	public void makeSong ( char[] notes ) {
 
-
 		Sequence sequence = null;
 
 		try {
@@ -71,37 +70,25 @@ public class MidiMaker {
 		ShortMessage noteOff = null;
 
 		long tickOn = 0;
-		long tickOff = tickOn + this.baseDuration - 1;
+		long tickOff = tickOn + baseDuration - 1;
 		char previousNote = ' ';
 
-		for ( char note : notes ) {
+		int duration = 0;
 
-			int duration = 0;
-			int noteIndex = Arrays.asList( notes ).indexOf( note );
+		for ( int i = 0; i < notes.length; i++ ) {
 
-			if( note != previousNote ) {
+			char note = '0';//DEBUG
+			if( note != previousNote ) { //New Note
 
-				for( int i = noteIndex; i < notes.length; i++ ) {
-
-					if( notes[i] == note ) {
-
-						duration += baseDuration;
-
-					}
-
-					else {
-
-						break;
-
-					}
-
-				}
-
+				//Lock in the previous note
+				//
+				//New Note
 				tickOff = tickOn + duration - 1;
 
 				int pitch = getPitch( note, octave );
 
 				try {
+
 					noteOn = new ShortMessage( ShortMessage.NOTE_ON, pitch, noteVelocity );
 					noteOff = new ShortMessage( ShortMessage.NOTE_OFF, pitch, 0);
 
