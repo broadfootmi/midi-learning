@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class SimulationGUI {
 
 	private JFrame frame;
+	private JScrollPane creatureScrollPane;
+	private JPanel creaturePanel;
 
 	private ArrayList< CreatureInfoPanel > creatureInfoPanels;
 
@@ -20,13 +22,20 @@ public class SimulationGUI {
 	SimulationGUI () {
 
 		frame = new JFrame( "MIDI Learning" );
+		creatureScrollPane = new JScrollPane();
+		creaturePanel = new JPanel();
+ 		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
 
 		frame.setSize( resolutionX, resolutionY );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().setLayout( new GridLayout( creatureRows, creatureColumns , creatureSpacingX, creatureSpacingY ) );
+		frame.getContentPane().add( creatureScrollPane, BorderLayout.WEST );
 
-		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
-
+		creatureScrollPane.createVerticalScrollBar();
+		creatureScrollPane.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
+		creatureScrollPane.getViewport().add( creaturePanel );
+		
+		creaturePanel.setLayout( new GridLayout( 0, 1 ) );
+		
 	}
 
 	public void start () {
@@ -43,24 +52,23 @@ public class SimulationGUI {
 
 		for( Creature c : creatures ) {
 		
-			creatureInfoPanels.add( new CreatureInfoPanel( c ) );
+			CreatureInfoPanel p =  new CreatureInfoPanel( c ); 
+			creatureInfoPanels.add( p );
+
+			
 
 		}
 
-		int numRows = creatureInfoPanels.size() / creatureColumns;
-		int numCols = creatureColumns;
+		for( CreatureInfoPanel p : creatureInfoPanels ){
 
-		for( int row = 0; row < numRows; row++ ) {
+			creaturePanel.add( p );
 
-			for( int col = 0; col < numCols; col++ ) {
-
-				frame.getContentPane().add( creatureInfoPanels.get( row + numRows * col ) );
-
-			}
+			p.setAlignmentX( Component.LEFT_ALIGNMENT );
 
 		}
 
 		frame.revalidate();
+		frame.repaint();
 
 	}
 

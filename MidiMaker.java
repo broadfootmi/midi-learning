@@ -70,18 +70,18 @@ public class MidiMaker {
 		ShortMessage noteOff = null;
 
 		long tickOn = 0;
-		long tickOff = tickOn + baseDuration - 1;
-		char previousNote = ' ';
+		long tickOff;
 
 		int duration = 0;
 
+		char previousNote = ' ';
+
 		for ( int i = 0; i < notes.length; i++ ) {
 
-			char note = '0';//DEBUG
-			if( note != previousNote ) { //New Note
+			char note = notes[i];
 
-				//Lock in the previous note
-				//
+			if( ( note != previousNote ) & ( previousNote != ' ' ) ) { //New Note
+				//set tick off and end previous note
 				//New Note
 				tickOff = tickOn + duration - 1;
 
