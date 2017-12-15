@@ -1,17 +1,22 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
 public class SimulationGUI {
 
+	private Simulation simulation;
+
 	private JFrame frame;
+
 	private JScrollPane creatureScrollPane;
 	private JPanel creaturePanel;
-
 	private ArrayList< CreatureInfoPanel > creatureInfoPanels;
 
+	private JButton stepSimulation;
+
 	private int creatureRows = 0;
-	private int creatureColumns = 8;
+	private int creatureColumns = 1;
 
 	private int creatureSpacingX = 16;
 	private int creatureSpacingY = 0;
@@ -19,22 +24,32 @@ public class SimulationGUI {
 	private int resolutionX = 640;
 	private int resolutionY = 480;
 
-	SimulationGUI () {
+	private int stepsPerClick = 1;
+
+	SimulationGUI ( Simulation simulation ) {
+
+		this.simulation = simulation;
 
 		frame = new JFrame( "MIDI Learning" );
+
 		creatureScrollPane = new JScrollPane();
 		creaturePanel = new JPanel();
  		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
 
+		stepSimulation = new JButton( "Next" );
+
 		frame.setSize( resolutionX, resolutionY );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( creatureScrollPane, BorderLayout.WEST );
+		frame.getContentPane().add( stepSimulation, BorderLayout.EAST );
 
 		creatureScrollPane.createVerticalScrollBar();
 		creatureScrollPane.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
 		creatureScrollPane.getViewport().add( creaturePanel );
 		
-		creaturePanel.setLayout( new GridLayout( 0, 1 ) );
+		creaturePanel.setLayout( new GridLayout( creatureRows, creatureColumns ) );
+
+		stepSimulation.addActionListener( new StepListener() );
 		
 	}
 
@@ -55,9 +70,9 @@ public class SimulationGUI {
 			CreatureInfoPanel p =  new CreatureInfoPanel( c ); 
 			creatureInfoPanels.add( p );
 
-			
-
 		}
+
+		creaturePanel.removeAll();
 
 		for( CreatureInfoPanel p : creatureInfoPanels ){
 
@@ -69,6 +84,16 @@ public class SimulationGUI {
 
 		frame.revalidate();
 		frame.repaint();
+
+	}
+
+	private class StepListener implements ActionListener {
+
+		public void actionPerformed( ActionEvent e ) {
+		
+			simulation.step( stepsPerClick );
+
+		}
 
 	}
 

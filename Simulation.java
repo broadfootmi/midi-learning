@@ -43,7 +43,7 @@ public class Simulation {
 		previousGenerations = new ArrayList< Population > ();
 
 		/*Init GUI*/
-		gui = new SimulationGUI();
+		gui = new SimulationGUI( this );
 		gui.start();
 
 	}	
@@ -73,35 +73,10 @@ public class Simulation {
 		currentGeneration = new Population( this, populationSize );
 		numGenerations++;
 
-		/*Step Simulation*/
-		while (!isSimulationComplete) {
-
-			nextGeneration();
-
-		}
+		gui.displayPopulation( currentGeneration );
 
 		/*DEBUG GUI*/
-		gui.displayPopulation( currentGeneration );
 		//gui.displayPopulation( previousGenerations.get(0) );
-
-		/*Display Results*/
-		System.out.println("Done!");
-
-		if ( numGenerations == maxNumGenerations ) {
-
-			System.out.println ( "Generation limit reached." );
-
-		}
-
-		if ( currentGeneration.getContainsPerfectCreature() ) {
-
-			System.out.println ( "Desired Creature achieved. Here it is! :");
-			currentGeneration.getTopCreature().printTraits();
-			System.out.println ( "Compared to what we wanted : " );
-			desiredCreature.printTraits();
-			System.out.println ( "It only took " + numGenerations + " generations." );
-
-		}
 
 	}
 
@@ -130,18 +105,60 @@ public class Simulation {
 		currentGeneration.setGenerationIndex( previousGenerations.size() - 1 );
 		currentGeneration.nameCreatures();
 
-		//Display creatures in GUI
-		//
-		//Await user input
+		gui.displayPopulation( currentGeneration );
 
 		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
 			this.isSimulationComplete = true;
+			displayResults();
 			return;
 		}
 
 		lastGeneration = currentGeneration;
 		currentGeneration = new Population( lastGeneration );
 		numGenerations++;
+
+
+	}
+
+	public void step( int numSteps ) {
+
+		for( int i = 0; i < numSteps; i++ ) {
+
+			if( isSimulationComplete ) {
+
+				break;
+
+			}
+
+			else {
+
+				nextGeneration();
+
+			}
+
+		}
+	
+	}
+
+	private void displayResults(){
+
+		System.out.println("Done!");
+
+		if ( numGenerations == maxNumGenerations ) {
+
+			System.out.println ( "Generation limit reached." );
+
+		}
+
+		if ( currentGeneration.getContainsPerfectCreature() ) {
+
+			System.out.println ( "Desired Creature achieved. Here it is! :");
+			currentGeneration.getTopCreature().printTraits();
+			System.out.println ( "Compared to what we wanted : " );
+			desiredCreature.printTraits();
+			System.out.println ( "It only took " + numGenerations + " generations." );
+
+		}
 
 	}
 
