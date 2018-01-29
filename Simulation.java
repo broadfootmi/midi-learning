@@ -164,44 +164,16 @@ public class Simulation {
 
 	public boolean testCreature( Creature c ) {
 
-		boolean isPerfectMatch = true;
+		boolean isPerfectSolution;
 
-		/*Compare traits with desired creature*/
-		boolean[] genomeUnderTest = c.getGenome().getData();
-		boolean[] desiredGenome = desiredCreature.getGenome().getData();
-
-		int fitness = 0;
-		int index = 0;
-		int bitsPerGene = c.getGenome().getBitsPerGene();
-
-
-		for ( int i = 0; i < genomeUnderTest.length; i += bitsPerGene ) {
-
-			boolean geneMatches = true;
-
-			for ( int j = 0; j < bitsPerGene; j++ ) {
-
-				if ( genomeUnderTest[i+j] != desiredGenome[i+j] ) {
-
-					geneMatches = false;
-					isPerfectMatch = false;
-					break;
-
-				}
-
-			}
-			
-			if (geneMatches) {
-
-				fitness++;
-
-			}
-
-		}
-
+		int fitness = c.getGenome().numMatchingGenes( desiredCreature.getGenome() );
 		c.setFitness( fitness );
 
-		return isPerfectMatch;
+		boolean allGenesMatch = ( fitness == c.getGenome().getNumGenes() );
+
+		isPerfectSolution = allGenesMatch;
+
+		return isPerfectSolution;
 
 	}
 

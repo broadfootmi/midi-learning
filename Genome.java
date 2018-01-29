@@ -114,6 +114,18 @@ public class Genome {
 
 	}
 
+	public int getNumGenes () {
+	
+		return numGenes;
+
+	}
+
+	public boolean isLastBit( int index ) {
+
+		return ( index == data.length - 1 );
+
+	}
+
 	public int getBitsPerGene() {
 
 		return bitsPerGene;
@@ -144,6 +156,35 @@ public class Genome {
 
 	}
 
+	public int numMatchingGenes( Genome otherGenome ) {
+
+		int numMatchingGenes = 0;
+		boolean[] otherData = otherGenome.getData();
+
+		for ( int i = 0; i < data.length; i += bitsPerGene ) { //For Genes in Genome
+
+			boolean geneMatches = true;
+
+			for ( int j = 0; j < bitsPerGene; j++ ) { //For Bits in Gene
+
+				if ( data[i+j] != otherData[i+j] ) {
+
+					geneMatches = false;
+					break;
+
+				}
+
+			}
+
+			if( geneMatches ) {
+				numMatchingGenes++;
+			}
+
+		}
+
+		return numMatchingGenes;
+
+	}
 
 	public boolean[] getGene( char note ) {
 

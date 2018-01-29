@@ -154,7 +154,7 @@ public class Creature implements Comparable<Creature> {
 
 			try {
 
-				String generationIndex = String.format( "%03d", generation.getGenerationIndex() + 1 ); //Indexing starts at 1!!! (For naming purposes only)
+				String generationIndex = String.format( "%03d", generation.getGenerationIndex() + 1 ); //Named Indexes start at 1
 				String creatureIndex = String.format( "%03d", generation.getCreatureIndex( this ) + 1 );
 				String fitness = String.format( "%02d", this.fitness );
 
@@ -188,30 +188,23 @@ public class Creature implements Comparable<Creature> {
 	public void crossover (Creature partner, Creature childOne, Creature childTwo) {
 
 		int crossoverPoint = simulation.getRandomInteger() % genome.getLength();
-		Genome partnerGenome = partner.getGenome();
 
-		Genome childOneGenome = new Genome( childOne );
-		Genome childTwoGenome = new Genome( childTwo ); 
-		
-		for ( int i = 0; i <= crossoverPoint; i++ ) {
+		for ( int i = 0; i <= crossoverPoint; i++ ) { //Set Bits Before Crossover Point
 			
-			childOneGenome.setDataBit( i, genome.getDataBit( i ) );
-			childTwoGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
-		}
+			childOne.getGenome().setDataBit( i, genome.getDataBit( i ) );
+			childTwo.getGenome().setDataBit( i, partner.getGenome().getDataBit( i ) );
+		} 
 
-		if ( crossoverPoint != (genome.getLength() - 1) ) {
+		if ( !genome.isLastBit( crossoverPoint ) ) {
 
-			for ( int i = crossoverPoint + 1; i < genome.getLength(); i++ ) {
+			for ( int i = crossoverPoint + 1; i < genome.getLength(); i++ ) { //Set Bits After Crossover Point
 
-				childOneGenome.setDataBit( i, partnerGenome.getDataBit( i ) );
-				childTwoGenome.setDataBit( i, genome.getDataBit( i ) );
+				childOne.getGenome().setDataBit( i, partner.getGenome().getDataBit( i ) );
+				childTwo.getGenome().setDataBit( i, genome.getDataBit( i ) );
 
 			}
 
 		}
-
-		childOne.setGenome( childOneGenome );
-		childTwo.setGenome( childTwoGenome );
 
 		childOne.mutate();
 		childTwo.mutate();
