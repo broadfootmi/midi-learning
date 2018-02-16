@@ -34,7 +34,7 @@ public class SimulationGUI {
 	private int resolutionX = 640;
 	private int resolutionY = 480;
 
-	private int stepsPerClick = 1;
+	private int defaultStepsPerClick = 1;
 	private int minStepsPerClick = 1;
 	private int maxStepsPerClick = 20;
 
@@ -54,7 +54,7 @@ public class SimulationGUI {
 		generationPanel.add( generationLabel );
 		generationPanel.add( creatureScrollPane );
 
-		numStepsChooser = new JSpinner( new SpinnerNumberModel(stepsPerClick, minStepsPerClick, maxStepsPerClick, 1) );
+		numStepsChooser = new JSpinner( new SpinnerNumberModel(defaultStepsPerClick, minStepsPerClick, maxStepsPerClick, 1) );
 
 		buttonPanel = new JPanel( new GridLayout(buttonRows, buttonCols) );
 		stepSimulation = new JButton( "Next" );
@@ -114,10 +114,15 @@ public class SimulationGUI {
 
 	}
 
+	private int stepsPerClick() {
+	
+		SpinnerNumberModel model = (SpinnerNumberModel) numStepsChooser.getModel();
+		return model.getNumber().intValue();
+	}
+
 	public void updateGenerationLabel() {
 
 		generationLabel.setText("Generation #" + (simulation.getCurrentGeneration().getGenerationIndex() + 1));
-
 	
 	}
 
@@ -125,7 +130,7 @@ public class SimulationGUI {
 
 		public void actionPerformed( ActionEvent e ) {
 		
-			simulation.step( stepsPerClick );
+			simulation.step( stepsPerClick() );
 			displayPopulation( simulation.getCurrentGeneration() );
 
 		}
