@@ -98,6 +98,7 @@ public class Simulation {
 
 	private void nextGeneration() {
 
+
 		if( numGenerations == 0 ) {
 
 			currentGeneration = new Population( this, populationSize );
@@ -107,6 +108,11 @@ public class Simulation {
 		
 		else if( numGenerations > 0 ) {
 	
+			if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
+				this.isSimulationComplete = true;
+				displayResults();
+				return;
+			}
 			lastGeneration = currentGeneration;
 			currentGeneration = new Population( lastGeneration );
 		}
@@ -114,16 +120,14 @@ public class Simulation {
 		numGenerations++;
 
 		currentGeneration.testCreatures();
-		currentGeneration.setGenerationIndex( previousGenerations.size() - 1 );
+		currentGeneration.setGenerationIndex( previousGenerations.size() );
 		currentGeneration.nameCreatures();
 
 		previousGenerations.add( currentGeneration );
 
-		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
-			this.isSimulationComplete = true;
-			displayResults();
-			return;
-		}
+		
+
+		gui.updateGenerationLabel();
 
 	}
 
