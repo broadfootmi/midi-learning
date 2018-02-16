@@ -122,8 +122,14 @@ public class SimulationGUI {
 
 	public void updateGenerationLabel() {
 
-		generationLabel.setText("Generation #" + (simulation.getCurrentGeneration().getGenerationIndex() + 1));
+		String text = "Generation #" + (simulation.getCurrentGeneration().getGenerationIndex() + 1);
+
+		if( simulation.isSimulationComplete() ) {
+			text += " - Done!";	
+		}
 	
+		generationLabel.setText(text);
+
 	}
 
 	private class StepListener implements ActionListener {

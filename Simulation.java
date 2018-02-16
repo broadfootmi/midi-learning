@@ -125,8 +125,6 @@ public class Simulation {
 
 		previousGenerations.add( currentGeneration );
 
-		
-
 		gui.updateGenerationLabel();
 
 	}
@@ -164,6 +162,8 @@ public class Simulation {
 	}
 
 	private void displayResults(){
+
+		gui.updateGenerationLabel();
 
 		System.out.println("Done!");
 
