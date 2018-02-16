@@ -6,7 +6,7 @@ public class Simulation {
 
 	/*Settings*/
 	private double mutationRate = 0.01;
-	private double populationSize = 192;
+	private int populationSize = 192;
 	private int maxNumGenerations = 1000;
 	private Creature desiredCreature;
 
@@ -60,6 +60,12 @@ public class Simulation {
 
 	}
 
+	public Population getCurrentGeneration () {
+		
+		return currentGeneration;
+
+	}
+
 	public void start () {
 
 		/*Desired Creature*/
@@ -68,16 +74,8 @@ public class Simulation {
 		desiredCreature.printGenome();
 		desiredCreature.printTraits();
 
-		/*Initialize first Population*/
-		int populationSize = 200;
-		currentGeneration = new Population( this, populationSize );
-		numGenerations++;
-
-		gui.displayPopulation( currentGeneration );
-
-		/*DEBUG GUI*/
-		//gui.displayPopulation( previousGenerations.get(0) );
-
+		step();
+		
 	}
 
 	public boolean getRandomBoolean () {
@@ -100,12 +98,26 @@ public class Simulation {
 
 	private void nextGeneration() {
 
+		if( numGenerations == 0 ) {
+
+			currentGeneration = new Population( this, populationSize );
+			gui.displayPopulation( currentGeneration );
+
+		}
+		
+		else if( numGenerations > 0 ) {
+	
+			lastGeneration = currentGeneration;
+			currentGeneration = new Population( lastGeneration );
+		}
+
+		numGenerations++;
+
 		currentGeneration.testCreatures();
-		previousGenerations.add( currentGeneration );
 		currentGeneration.setGenerationIndex( previousGenerations.size() - 1 );
 		currentGeneration.nameCreatures();
 
-		gui.displayPopulation( currentGeneration );
+		previousGenerations.add( currentGeneration );
 
 		if ( (numGenerations == maxNumGenerations) || (currentGeneration.getContainsPerfectCreature()) ) {
 			this.isSimulationComplete = true;
@@ -113,10 +125,11 @@ public class Simulation {
 			return;
 		}
 
-		lastGeneration = currentGeneration;
-		currentGeneration = new Population( lastGeneration );
-		numGenerations++;
+	}
 
+	public void step() {
+		
+		step(1);
 
 	}
 
@@ -138,6 +151,12 @@ public class Simulation {
 
 		}
 	
+	}
+
+	public boolean isSimulationComplete() {
+		
+		return isSimulationComplete;
+
 	}
 
 	private void displayResults(){

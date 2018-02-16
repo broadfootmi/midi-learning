@@ -13,10 +13,15 @@ public class SimulationGUI {
 	private JPanel creaturePanel;
 	private ArrayList< CreatureInfoPanel > creatureInfoPanels;
 
+	private JPanel buttonPanel;
 	private JButton stepSimulation;
+	private JButton finishSimulation;
 
 	private int creatureRows = 0;
-	private int creatureColumns = 1;
+	private int creatureCols = 1;
+
+	private int buttonRows = 0;
+	private int buttonCols = 1;
 
 	private int creatureSpacingX = 16;
 	private int creatureSpacingY = 0;
@@ -36,20 +41,26 @@ public class SimulationGUI {
 		creaturePanel = new JPanel();
  		creatureInfoPanels = new ArrayList< CreatureInfoPanel >();
 
+		buttonPanel = new JPanel( new GridLayout(buttonRows, buttonCols) );
 		stepSimulation = new JButton( "Next" );
+		finishSimulation = new JButton( "Finish" );
+
+		buttonPanel.add( stepSimulation );
+		buttonPanel.add( finishSimulation );
 
 		frame.setSize( resolutionX, resolutionY );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( creatureScrollPane, BorderLayout.WEST );
-		frame.getContentPane().add( stepSimulation, BorderLayout.EAST );
+		frame.getContentPane().add( buttonPanel, BorderLayout.CENTER );
 
 		creatureScrollPane.createVerticalScrollBar();
 		creatureScrollPane.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
 		creatureScrollPane.getViewport().add( creaturePanel );
 		
-		creaturePanel.setLayout( new GridLayout( creatureRows, creatureColumns ) );
+		creaturePanel.setLayout( new GridLayout( creatureRows, creatureCols ) );
 
 		stepSimulation.addActionListener( new StepListener() );
+		finishSimulation.addActionListener( new FinishListener() );
 		
 	}
 
@@ -92,6 +103,23 @@ public class SimulationGUI {
 		public void actionPerformed( ActionEvent e ) {
 		
 			simulation.step( stepsPerClick );
+			displayPopulation( simulation.getCurrentGeneration() );
+
+		}
+
+	}
+
+	private class FinishListener implements ActionListener {
+
+		public void actionPerformed( ActionEvent e ) {
+
+			while( !simulation.isSimulationComplete() ) {
+
+				simulation.step();
+
+			}
+
+			displayPopulation( simulation.getCurrentGeneration() );
 
 		}
 

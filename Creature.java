@@ -187,17 +187,17 @@ public class Creature implements Comparable<Creature> {
 
 	public void crossover (Creature partner, Creature childOne, Creature childTwo) {
 
-		int crossoverPoint = simulation.getRandomInteger() % genome.getLength();
+		int crossoverIndex = simulation.getRandomInteger() % genome.getLength();
 
-		for ( int i = 0; i <= crossoverPoint; i++ ) { //Set Bits Before Crossover Point
+		for ( int i = 0; i <= crossoverIndex; i++ ) { //Set Bits Before Crossover Point
 			
 			childOne.getGenome().setDataBit( i, genome.getDataBit( i ) );
 			childTwo.getGenome().setDataBit( i, partner.getGenome().getDataBit( i ) );
 		} 
 
-		if ( !genome.isLastBit( crossoverPoint ) ) {
+		if ( !genome.isLastBit( crossoverIndex ) ) {
 
-			for ( int i = crossoverPoint + 1; i < genome.getLength(); i++ ) { //Set Bits After Crossover Point
+			for ( int i = crossoverIndex + 1; i < genome.getLength(); i++ ) { //Set Bits After Crossover Point
 
 				childOne.getGenome().setDataBit( i, partner.getGenome().getDataBit( i ) );
 				childTwo.getGenome().setDataBit( i, genome.getDataBit( i ) );
