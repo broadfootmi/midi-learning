@@ -1,11 +1,13 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.*;
 import java.io.*;
 
-public class CreatureInfoPanel extends JPanel { 
+public class CreatureInfoPanel extends JButton {
 
 	Creature creature;
 
@@ -20,7 +22,7 @@ public class CreatureInfoPanel extends JPanel {
 
 		setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
 
-		songLabel = new JLabel( creature.getSong() ); 
+		songLabel = new JLabel( creature.getSong() );
 
 		try {
 
@@ -37,16 +39,23 @@ public class CreatureInfoPanel extends JPanel {
 
 		}
 
-		
-
-
 		add( creatureSprite );
 		add( songLabel );
 
 		setBackground( Color.gray );
 		setBorder( new LineBorder( Color.black, 2, false ) );
 
+		addActionListener(new PlaySongListener());
 	}
-	
+
+	public class PlaySongListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            creature.playSong();
+
+        }
+    }
 }
 

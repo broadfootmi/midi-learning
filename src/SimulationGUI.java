@@ -73,7 +73,7 @@ public class SimulationGUI {
 		creatureScrollPane.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
 		creatureScrollPane.getViewport().add( creaturePanel );
 		
-		creaturePanel.setLayout( new GridLayout( creatureRows, creatureCols ) );
+		creaturePanel.setLayout( new GridLayout( creatureRows, creatureCols) );
 
 		stepSimulation.addActionListener( new StepListener() );
 		finishSimulation.addActionListener( new FinishListener() );

@@ -4,16 +4,18 @@ import java.util.Arrays;
 
 public class MidiMaker {
 
+	public final static MidiMaker INSTANCE = new MidiMaker();
+
 	private Sequencer sequencer;
 	private HashMap< Character, Integer > notePitchMap;
 
 	private int baseDuration = 4;
 	private int ticksPerBeat = 2;
 	private int noteVelocity = 64;
-	private int octave = 5;
+	private int defaultOctave = 5;
 	private final int notesPerOctave = 12;
-	
-	public MidiMaker () {
+
+	private MidiMaker () {
 
 		try {
 
@@ -28,6 +30,8 @@ public class MidiMaker {
 			initNotePitchMap();
 
 		}
+
+
 
 	}
 
@@ -44,13 +48,25 @@ public class MidiMaker {
 
 		for( int i = 0; i < allNotes.length; i++ ) {
 
-			notePitchMap.put( allNotes[i], i );
+			notePitchMap.put( allNotes[i], i);
 
 		}
+
 	}
 
+	public void makeSong( char[] notes ){
 
-	public void makeSong ( char[] notes ) {
+		int[] mask = new int[notes.length];
+		for(int i = 0; i < mask.length; i++){
+			mask[i] = defaultOctave;
+			if(notes[i] == 'C'){
+		    	mask[i] = 6;
+			}
+		}
+		makeSong(notes, mask);
+	}
+
+	public synchronized void makeSong ( char[] notes, int[] octaveMask) {
 
 		Sequence sequence = null;
 
@@ -72,18 +88,19 @@ public class MidiMaker {
 		long tickOn = 0;
 		long tickOff;
 
-		int duration = 0;
+		int duration = 1;
 
 		char previousNote = ' ';
 
 		for ( int i = 0; i < notes.length; i++ ) {
 
 			char note = notes[i];
+			int octave = octaveMask[i];
 
-			if( ( note != previousNote ) & ( previousNote != ' ' ) ) { //New Note
+			if( ( note != previousNote ) && (note != 'r') ) { //New Note
 				//set tick off and end previous note
 				//New Note
-				tickOff = tickOn + duration - 1;
+				tickOff = tickOn + duration; //- 1;
 
 				int pitch = getPitch( note, octave );
 
@@ -104,10 +121,10 @@ public class MidiMaker {
 				sequence.getTracks()[0].add( noteOnEvent );
 				sequence.getTracks()[0].add( noteOffEvent );
 
-				tickOn += duration;
 
 			}
 
+			tickOn += duration;
 			previousNote = note;
 
 		}

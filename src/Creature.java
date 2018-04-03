@@ -231,5 +231,9 @@ public class Creature implements Comparable<Creature> {
 
 		
 	}
+
+    public void playSong() {
+		MidiMaker.INSTANCE.makeSong(getSong().toCharArray());
+    }
 }
 
