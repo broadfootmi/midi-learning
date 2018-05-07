@@ -1,22 +1,27 @@
-public class Creature implements Comparable<Creature> {
+public abstract class Creature implements Comparable<Creature> {
 
-	private Simulation simulation;
+	protected Simulation simulation;
 
-	private Population generation;
-	private boolean hasPopulation = true;
+	protected Population generation;
+	protected boolean hasPopulation = true;
 
-	private Genome genome;
-	private boolean isFitnessDetermined = false;
+	protected Genome genome;
+	protected boolean isFitnessDetermined = false;
 
-	private String name;
+	protected String name;
 
-	private int fitness;
-	private boolean isMutated = false;
+	protected int fitness;
+	protected boolean isMutated = false;
 
-	private Creature () {
+	protected Creature () {
 
-		genome = new Genome( this );
+		//genome = new Genome( this );
+		initGenome();
 
+	}
+
+	protected void initGenome() {
+	    //genome = new MidiGenome(this);
 	}
 
 	public Creature ( Simulation simulation ) { //Lone Creature
@@ -43,15 +48,6 @@ public class Creature implements Comparable<Creature> {
 	public Creature ( Population population, boolean[] genome ) { //Child Creature
 
 		this( population );
-
-		setGenome( genome );
-
-	}
-
-	public Creature ( Population population, char[] genome ) {
-
-		this( population );
-
 		setGenome( genome );
 
 	}
@@ -121,25 +117,10 @@ public class Creature implements Comparable<Creature> {
 
 	}
 
-	public void setGenome ( char[] newTraits ) {
+	public void setGenome ( Trait[] newTraits ) {
 
 		genome.setData( newTraits );
 
-	}
-
-	public String getSong () {
-
-		String song = new String();
-
-		char[] notes = genome.getDataAsNotes();
-
-		for( char note : notes ) {
-
-			song += note;
-
-		}
-
-		return song;
 	}
 
 	public Genome getGenome () {
@@ -173,7 +154,6 @@ public class Creature implements Comparable<Creature> {
 				name = "null";
 
 			}
-
 
 		}
 
@@ -229,11 +209,7 @@ public class Creature implements Comparable<Creature> {
 
 		}
 
-		
 	}
 
-    public void playSong() {
-		MidiMaker.INSTANCE.makeSong(getSong().toCharArray());
-    }
 }
 

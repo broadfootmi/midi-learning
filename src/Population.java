@@ -1,12 +1,16 @@
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Population {
+public class Population<CreatureType extends Creature> {
+
+	private Class<CreatureType> creatureTypeClass = (Class<CreatureType>) MidiCreature.class;
 
 	private Simulation simulation;
 	private ArrayList< Creature > creatures;
 	private boolean containsPerfectCreature = false;
 	private int generationIndex;
+
 
 	private Population () {
 
@@ -21,12 +25,25 @@ public class Population {
 		this.simulation = simulation;
 
 		for ( int i = 0; i < size; i++ ) {
-			
-			Creature c = new Creature( this );
-			creatures.add(c);
-
+			creatures.add(getCreatureInstance());
 		}
 
+	}
+
+	private Creature getCreatureInstance(){
+			Creature c = null;
+			try {
+				c = creatureTypeClass.getDeclaredConstructor(Population.class).newInstance(this);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+			return c;
 	}
 
 	public Population ( Population parentGeneration ) {
@@ -41,8 +58,8 @@ public class Population {
 			Creature mateOne = simulation.chooseCreature( parentGeneration );
 			Creature mateTwo = simulation.chooseCreature( parentGeneration );
 
-			Creature childOne = new Creature( this );
-			Creature childTwo = new Creature( this );
+			Creature childOne = getCreatureInstance();
+			Creature childTwo = getCreatureInstance();
 
 			mateOne.crossover( mateTwo, childOne, childTwo );
 

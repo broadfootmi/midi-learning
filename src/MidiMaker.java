@@ -17,6 +17,8 @@ public class MidiMaker {
 
 	private MidiMaker () {
 
+		initNotePitchMap();
+
 		try {
 
 			sequencer = MidiSystem.getSequencer();
@@ -24,10 +26,6 @@ public class MidiMaker {
 		} catch ( MidiUnavailableException e ) {
 
 			System.out.println("No Sequencer Available.");
-
-		} finally {
-
-			initNotePitchMap();
 
 		}
 

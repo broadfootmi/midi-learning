@@ -33,8 +33,15 @@ public class Recolorer {
 			String binary = new String();
 
 			for( int bit = 0; bit < bitsPerColor; bit++ ) {
+				boolean isOne = false;
 
-				if( data[bit + component * bitsPerColor] == true ) {
+				try{
+					isOne = data[bit + component * bitsPerColor] == true;
+				} catch(ArrayIndexOutOfBoundsException e){
+				    //array out of bounds
+					break;
+				}
+				if(isOne) {
 
 					binary += "1";
 
@@ -49,7 +56,11 @@ public class Recolorer {
 			}
 
 				int base = 2;
-				valuesRGB[component] = Integer.parseInt( binary, base );
+			try {
+				valuesRGB[component] = Integer.parseInt(binary, base);
+			} catch(NumberFormatException e){
+				System.out.println("Creature has no genetic code");
+			}
 
 		}
 

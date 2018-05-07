@@ -34,9 +34,13 @@ public class Simulation {
 
 		/*Init Solution*/
 		String desiredGenomeString = "AAABCCBBAAGGAABBCCBBBBABCCBBrrAAGGrr";
-		char[] desiredGenome = desiredGenomeString.toCharArray();
+		Trait[] desiredGenome = new Trait[desiredGenomeString.length()];
+		char[] notes = desiredGenomeString.toCharArray();
+		for(int i = 0; i < notes.length; i++){
+		    desiredGenome[i] = new Note(notes[i]);
+		}
 
-		desiredCreature = new Creature( this );
+		desiredCreature = new MidiCreature( this );
 		desiredCreature.setGenome( desiredGenome );
 
 		/*Init Data*/
@@ -102,6 +106,7 @@ public class Simulation {
 		if( numGenerations == 0 ) {
 
 			currentGeneration = new Population( this, populationSize );
+			currentGeneration.nameCreatures();
 			gui.displayPopulation( currentGeneration );
 
 		}

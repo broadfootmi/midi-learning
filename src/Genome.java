@@ -1,13 +1,14 @@
-public class Genome {
+import java.util.HashMap;
 
-	public static final char[] Notes = { 'C', 'D', 'E', 'F', 'G', 'A', 'B', 'r' };
+public abstract class Genome {
 
-	private Creature owner;
+	protected Creature owner;
+	protected boolean[] data;
 
-	private boolean[] data;
+	protected static int numGenes = 36;
+	protected static int bitsPerGene = 3;
 
-	private int numGenes = 36;
-	private int bitsPerGene = 3;
+	protected HashMap<boolean[], Note> traitMap;
 
 	public Genome ( Creature owner ) {
 
@@ -18,20 +19,19 @@ public class Genome {
 
 	public void scramble () {
 
-		for ( int i = 0; i < data.length; i++ ) {
+			for (int i = 0; i < data.length; i++) {
 
-			boolean b = owner.getSimulation().getRandomBoolean();
-			data[i] = b;
+					boolean b = owner.getSimulation().getRandomBoolean();
+					data[i] = b;
 
-		}
-
+			}
 	}
 
-	public void setData ( boolean[] data ) {
+	public void setData (boolean[] newData) {
 
 		try {
 			
-			System.arraycopy( data, 0, this.data, 0, this.data.length);
+			System.arraycopy(newData, 0, this.data, 0, this.data.length);
 		
 		} catch( IndexOutOfBoundsException e ) {
 
@@ -46,20 +46,19 @@ public class Genome {
 
 	}
 
-	public void setData ( char[] notes ) {
+	public void setData ( Trait[] traits) {
 
-		boolean[] data = new boolean[this.data.length];
+		boolean[] newData = new boolean[this.data.length];
 
 		int binaryIndex = 0;
 
-		for ( char note : notes ) {
+		for ( Trait trait: traits) {
 
-			boolean[] gene = new boolean[bitsPerGene];
-			gene = getGene( note );
+
 
 			try {
-
-				System.arraycopy( gene, 0, data, binaryIndex, gene.length );
+				//System.arraycopy( data, 0, newData, binaryIndex, data.length );
+				System.arraycopy( trait.getData(), 0, newData, binaryIndex, trait.size());
 
 			} catch( Exception e ) {
 
@@ -71,7 +70,7 @@ public class Genome {
 
 		}
 
-		setData( data );
+		setData( newData );
 
 	}
 
@@ -93,14 +92,14 @@ public class Genome {
 
 	}
 
-	public char[] getDataAsNotes () {
+	public char[] getDataAsChars() {
 
 		String notes = new String();
 
 		for( int i = 0; i < data.length; i += bitsPerGene ) {
 
 			boolean[] note = { data[i], data[i+1], data[i+2] };
-			notes += getNote( note );
+			notes += getTrait(note).asChar();
 
 		}
 
@@ -134,7 +133,7 @@ public class Genome {
 
 	public void printTraits() {
 
-		char[] notes = getDataAsNotes();
+		char[] notes = getDataAsChars();
 		System.out.println( String.valueOf( notes ) );
 
 	}
@@ -145,16 +144,10 @@ public class Genome {
 
 	}
 
-	public char getNote( boolean[] gene ) {
-
-		String binaryString = DataConverter.getBinaryString( gene, bitsPerGene ); 
-
-		int base = 2;
-		int geneInt = Integer.parseInt( binaryString, base );
-
-		return Notes[ geneInt ];
-
+	public Trait getTrait(boolean[] gene) {
+		return new Trait(gene);
 	}
+
 
 	public int numMatchingGenes( Genome otherGenome ) {
 
@@ -186,31 +179,11 @@ public class Genome {
 
 	}
 
-	public boolean[] getGene( char note ) {
+	public boolean[] getGene( Trait trait ) {
 
-		boolean[] gene = new boolean[bitsPerGene];
-
-		int geneInt = 0;
-
-		for (int i = 0; i < Notes.length; i++) {
-
-			if (Notes[i] == note) {
-
-				geneInt = i;
-				break;
-
-			}
-
-		}
-
-		String binaryString = Integer.toBinaryString( geneInt );
-
-		gene = DataConverter.getBooleanArray( binaryString, bitsPerGene );
-
-		return gene;
+		return trait.getData();
 
 	}
-
 }
 
 

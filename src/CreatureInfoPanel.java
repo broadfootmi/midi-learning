@@ -12,7 +12,7 @@ public class CreatureInfoPanel extends JButton {
 	Creature creature;
 
 	JLabel creatureSprite;
-	JLabel songLabel;
+	JLabel nameLabel;
 	//	textlabel FIT
 	//	textlabel 36
 
@@ -22,7 +22,7 @@ public class CreatureInfoPanel extends JButton {
 
 		setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
 
-		songLabel = new JLabel( creature.getSong() );
+		nameLabel = new JLabel( creature.getName() );
 
 		try {
 
@@ -40,7 +40,7 @@ public class CreatureInfoPanel extends JButton {
 		}
 
 		add( creatureSprite );
-		add( songLabel );
+		add(nameLabel);
 
 		setBackground( Color.gray );
 		setBorder( new LineBorder( Color.black, 2, false ) );
@@ -53,7 +53,12 @@ public class CreatureInfoPanel extends JButton {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            creature.playSong();
+        	try {
+				((MidiCreature)creature).playSong();
+			} catch(Exception err){
+        		err.printStackTrace();
+				System.out.println("Wrong creature type in CreatureInfoPanel");
+			}
 
         }
     }
