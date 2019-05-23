@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="midi-learning-java:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/midi_learning_java_jar</output-path>
+    <root id="archive" name="midi-learning-java.jar">
+      <element id="module-output" name="midi-learning-java" />
+      <element id="module-test-output" name="midi-learning-java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/creature.png" />
+    </root>
+  </artifact>
+</component>

@@ -26,7 +26,7 @@ public class CreatureInfoPanel extends JButton {
 
 		try {
 
-			BufferedImage creatureImage = ImageIO.read( new File( "creature.png" ) );
+			BufferedImage creatureImage = ImageIO.read( getClass().getResourceAsStream("creature.png"));
 			Color creatureColor = Recolorer.encode( creature.getGenome() );
 			Recolorer.recolor( creatureImage, creatureColor );
 
