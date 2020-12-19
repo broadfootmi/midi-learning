@@ -15,7 +15,7 @@ MIDI Creatures are little songs. They evolve from a random collection of notes i
 
 **Click on each creature to hear its tune.**
 
-The current generation of MIDI Creatures is shown on the left, sorted by fitness. Fitness is how closely the creature sounds like our desired tune. The more musical notes (shown beside the creature) which match, the more *fit* the creature is, and the more of it's genetic bits will be passed down to the next generation!
+The current generation of MIDI Creatures is shown on the left, sorted by fitness. Fitness is how closely the creature sounds like our desired tune. The more musical notes (shown beside the creature) which match, the more *fit* the creature is, and the more of its genetic bits will be passed down to the next generation!
 
 The first generation is completely randomized. 
 
