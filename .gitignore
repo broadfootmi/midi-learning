@@ -5,3 +5,5 @@
 
 *.fodt
 *.~lock*
+*.png
+!*app_guide.png
