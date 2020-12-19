@@ -7,7 +7,36 @@ This app is an interactive, musical demo of the Genetic Algorithm. While this us
 Play around with it and see if you can recognize the tune! Then you might be interested in further reading; see recommendations below. 
 
 # Guide
+MIDI Creatures are little songs. They evolve from a random collection of notes into a desired pre-determined tune.
+
 ![screenshot](/docs/app_guide.png)
+
+1. Play Tunes
+
+**Click on each creature to hear its tune.**
+
+The current generation of MIDI Creatures is shown on the left, sorted by fitness. Fitness is how closely the creature sounds like our desired tune. The more musical notes (shown beside the creature) which match, the more *fit* the creature is, and the more of it's genetic bits will be passed down to the next generation!
+
+The first generation is completely randomized. 
+
+**Notice the colors.**
+
+A creature's *genes* are musical notes in binary form (bits). Color is determined by those same genes, so you can tell similar creatures at a glance. Do you notice any patterns?
+
+2. Step Simulation
+
+**Choose the number of generations per step and then hit Next.**
+
+Max per step is 20. 
+
+Tip: Step a few times in x1 then x20
+
+3. Step Until Finished
+
+Fast-forward to the end. The end is when at least one creature matches the desired tune.
+
+Tip: It's usually ~300 generations for a solution.
+
 
 ## What is a Genetic Algorithm?
 
