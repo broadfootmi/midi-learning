@@ -7,6 +7,7 @@ This app is an interactive, musical demo of the Genetic Algorithm. While this us
 Play around with it and see if you can recognize the tune! Then you might be interested in further reading; see recommendations below. 
 
 # Guide
+![screenshot](/docs/app_guide.png)
 
 ## What is a Genetic Algorithm?
 
