@@ -11,7 +11,7 @@ MIDI Creatures are little songs. They evolve from a random collection of notes i
 
 ![screenshot](/docs/app_guide.png)
 
-1. Play Tunes
+## 1) Play Tunes
 
 **Click on each creature to hear its tune.**
 
@@ -23,7 +23,7 @@ The first generation is completely randomized.
 
 A creature's *genes* are musical notes in binary form (bits). Color is determined by those same genes, so you can tell similar creatures at a glance. Do you notice any patterns?
 
-2. Step Simulation
+## 2) Step Simulation
 
 **Choose the number of generations per step and then hit Next.**
 
@@ -31,7 +31,7 @@ Max per step is 20.
 
 Tip: Step a few times in x1 then x20
 
-3. Step Until Finished
+## 3) Step Until Finished
 
 Fast-forward to the end. The end is when at least one creature matches the desired tune.
 
