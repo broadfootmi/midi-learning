@@ -7,3 +7,5 @@
 *.~lock*
 *.png
 !*app_guide.png
+*.kra
+*.gpl
