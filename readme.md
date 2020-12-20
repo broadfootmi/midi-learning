@@ -2,7 +2,7 @@ Check out the [latest release](https://github.com/broadfootmi/midi-learning/rele
 
 # About
 
-This app is an interactive, musical demo of the Genetic Algorithm. While this use case is simple and fun, you will find genetic algorithms to be crucial for optimizing open-ended systems like neural networks in the exciting field of Machine Learning. 
+This app is an interactive, musical demo of the Genetic Algorithm. While this use case is simple and fun, you will find genetic algorithms to be crucial for optimizing open-ended systems. One example is neural networks in the exciting field of Machine Learning. 
 
 Play around with it and see if you can recognize the tune! Then you might be interested in further reading; see recommendations below. 
 
