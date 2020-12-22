@@ -6,17 +6,15 @@ This app is an interactive, musical demo of the Genetic Algorithm. While this us
 
 Play around with it and see if you can recognize the tune! Then you might be interested in further reading; see recommendations at the bottom. 
 
-## What is a Genetic Algorithm?
+## Definitions
 
-It is a way to use [Survival of the Fittest](https://simple.wikipedia.org/wiki/Natural_selection) to solve computer problems.
+> A **Genetic Algorithm** uses [Survival of the Fittest](https://simple.wikipedia.org/wiki/Natural_selection) to "evolve" solutions to computer problems.
 
-## What is MIDI?
-
-It is a special music file which is not an actual song, but instructions for a *MIDI Synthesizer* to play a song. Pretty useful for programming the music on the fly!
+> **MIDI** is a special music file which is not an actual song, but instructions for a computer to play a song. Pretty useful for programming music on the fly!
 
 # Guide
 
-MIDI Creatures are little songs. They evolve from a random collection of notes into the desired tune.
+MIDI Creatures are little songs. They evolve from a random collection of notes into the desired tune. Does their icon resemble anything to you?
 
 ![screenshot](/docs/app_guide.png)
 
