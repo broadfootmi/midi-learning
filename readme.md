@@ -2,7 +2,7 @@ Check out the [latest release](https://github.com/broadfootmi/midi-learning/rele
 
 # About
 
-This app is an interactive, musical demo of the Genetic Algorithm. While this use case is simple and fun, you will find genetic algorithms to be crucial for optimizing open-ended systems. One example is neural networks in the exciting field of Machine Learning. 
+This app is an interactive, musical demo of the Genetic Algorithm. While this use case is simple and fun, genetic algorithms are crucial for optimizing open-ended systems. One example is neural networks in the field of Machine Learning. 
 
 Play around with it and see if you can recognize the tune! Then you might be interested in further reading; see recommendations at the bottom. 
 
@@ -10,7 +10,7 @@ Play around with it and see if you can recognize the tune! Then you might be int
 
 > A **Genetic Algorithm** uses [Survival of the Fittest](https://simple.wikipedia.org/wiki/Natural_selection) to "evolve" solutions to computer problems.
 
-> **MIDI** is a special music file which is not an actual song, but instructions for a computer to play a song. Pretty useful for programming music on the fly!
+> **MIDI** is a special music file which contains instructions for a computer to play a song. It was used for programming music on the fly!
 
 # Guide
 
@@ -28,17 +28,17 @@ The first generation is completely randomized.
 
 **Notice the colors.**
 
-A creature's *genes* are musical notes in binary form (bits). Color is determined by those same genes, so you can tell similar creatures at a glance. Do you notice any patterns?
+A creature's *genes* are musical notes in binary form (bits). Color is determined by those same genes, so you can identify similar creatures. Do you notice any patterns?
 
-## 2) Step Simulation
+## 2) Simulate
 
-**Choose the number of generations per step and then hit Next.**
+**Choose the number of generations per step and then click Next.**
 
 Max per step is 20. 
 
 Tip: Step a few times in x1 then x20.
 
-## 3) Step Until Finished
+## 3) Finish
 
 Fast-forward to the end. The end is when at least one creature matches the desired tune.
 
