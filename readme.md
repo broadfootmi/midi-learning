@@ -10,11 +10,11 @@ Play around with it and see if you can recognize the tune! Then you might be int
 
 > A **Genetic Algorithm** uses [Survival of the Fittest](https://simple.wikipedia.org/wiki/Natural_selection) to "evolve" solutions to computer problems.
 
-> **MIDI** is a special music file which contains instructions for a computer to play a song. It was used for programming music on the fly!
+> **MIDI** is a special music file which contains instructions for a computer to play a song. It was used for programming music dynamically.
 
 # Guide
 
-MIDI Creatures are little songs. They evolve from a random collection of notes into the desired tune. Does their icon resemble anything to you?
+MIDI Creatures are short songs. They evolve from a random collection of notes into the desired tune. Does their icon resemble anything to you?
 
 ![screenshot](/docs/app_guide.png)
 
@@ -34,7 +34,7 @@ A creature's *genes* are musical notes in binary form (bits). Color is determine
 
 **Choose the number of generations per step and then click Next.**
 
-Max per step is 20. 
+The maximum generations per step is 20. 
 
 Tip: Step a few times in x1 then x20.
 
