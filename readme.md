@@ -1,5 +1,3 @@
-Check out the [latest release](https://github.com/broadfootmi/midi-learning/releases/latest)!
-
 # About
 This app is an interactive, musical demo of a genetic algorithm. In machine learning, genetic algorithms can find the best neural network for a given problem.
 
@@ -12,6 +10,7 @@ This app is an interactive, musical demo of a genetic algorithm. In machine lear
 **MIDI creatures** are songs. Their binary DNA describes musical notes. In this genetic algorithm, MIDI creatures evolve from a random collection of notes into a desired tune.
 
 ![screenshot](/docs/app_guide.png)
+*Screenshot of the Swing user interface*
 
 ## 1) Play Tunes
 **Click a creature to hear its tune.**
@@ -40,3 +39,5 @@ The end is when at least one creature matches the desired tune.
 * *AI Techniques for Game Programming* by Mat Buckland, André LaMothe
 * [Genetic Algorithm](https://simple.wikipedia.org/wiki/Genetic_algorithm), Simple Wikipedia
 * [MIDI](https://en.wikipedia.org/wiki/MIDI#Use_with_computers), Wikipedia
+
+Try the [latest release](https://github.com/broadfootmi/midi-learning/releases/latest).
