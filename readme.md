@@ -17,7 +17,7 @@ This app is an interactive, musical demo of a genetic algorithm. In machine lear
 
 On the left, the current generation of MIDI creatures is sorted by fitness. Fitness is how closely our creature sounds like the desired tune. Fit creatures pass on more genetic bits to the next generation.
 
-Midi creatures' DNA determines their sprite color and string of musical notes.
+MIDI creatures' DNA determines their sprite color and string of musical notes.
 
 The first generation's DNA is randomized.
 
